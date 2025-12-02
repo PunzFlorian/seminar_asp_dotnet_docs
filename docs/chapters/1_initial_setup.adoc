@@ -1,0 +1,64 @@
+== 1 Initial Setup
+In this chapter, we create the base solution containing all projects needed for this tutorial.
+
+=== 1.1 Solution Creation
+* **Create Blank Solution:**
+.. Open Visual Studio.
+.. Click **Create a new project**.
+.. In the search bar, type **Blank Solution**.
+.. Select the **Blank Solution** template and click **Next**.
+.. Enter the Project name: `CinemaApp`.
+.. Click **Create**.
+
+=== 1.2 Add the Domain Project (Class Library)
+* **Create Domain Project:**
+.. In the Solution Explorer, right-click on Solution `CinemaApp`.
+.. Select **Add > New Project**.
+.. Search for **Class Library** (choose the C# one).
+.. Click **Next**.
+.. Project name: `CinemaApp.Domain`.
+.. Click **Next**, then **Create** (ensure .NET 8 or latest is selected).
+
+=== 1.3 Add the Data Project (Class Library)
+* **Create Data Project:**
+.. Right-click on Solution `CinemaApp` again.
+.. Select **Add > New Project**.
+.. Select **Class Library**.
+.. Project name: `CinemaApp.Data`.
+.. Click **Create**.
+
+=== 1.4 Add the API Project (Web API)
+* **Create API Project:**
+.. Right-click on Solution `CinemaApp`.
+.. Select **Add > New Project**.
+.. Search for **ASP.NET Core Web API**.
+.. Project name: `CinemaApp.API`.
+.. Click **Next**.
+.. Settings: Ensure **Use controllers** is checked and **Enable OpenAPI support** is checked.
+.. Click **Create**.
+
+=== 1.5 Add the Client Project (Blazor)
+* **Create Blazor Client Project:**
+.. Right-click on Solution `CinemaApp`.
+.. Select **Add > New Project**.
+.. Search for **Blazor WebAssembly Standalone App**.
+.. Project name: `CinemaApp.Client`.
+.. Click **Create**.
+
+=== 1.6 Set up Dependencies
+Now we link them together so they can share code.
+
+* **Link Data to Domain:**
+.. In Solution Explorer, expand `CinemaApp.Data`.
+.. Right-click **Dependencies** -> **Add Project Reference**.
+.. Check the box for `CinemaApp.Domain`. Click **OK**.
+
+* **Link API to Data & Domain:**
+.. Expand `CinemaApp.API`.
+.. Right-right-click **Dependencies** -> **Add Project Reference**.
+.. Check `CinemaApp.Data` **and** `CinemaApp.Domain`. Click **OK**.
+
+* **Link Client to Domain:**
+.. Expand `CinemaApp.Client`.
+.. Right-click **Dependencies** -> **Add Project Reference**.
+.. Check `CinemaApp.Domain`. Click **OK**.

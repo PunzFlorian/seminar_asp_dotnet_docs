@@ -1,0 +1,678 @@
+== 5 Identity
+
+=== 5.1 Installing Packages and Updating Context
+
+We need to upgrade our database to handle Users, Passwords, and Roles. Microsoft provides a pre-built system for this called **ASP.NET Core Identity**.
+
+*1. Install the Identity Package*
+* Right-click **`CinemaApp.Data`** -> **Manage NuGet Packages**.
+* Search for: `Microsoft.AspNetCore.Identity.EntityFrameworkCore`.
+* Click **Install**.
+
+*2. Update the DbContext*
+* Open `CinemaDbContext.cs` in **`CinemaApp.Data`**.
+* Change the inheritance from `DbContext` to `IdentityDbContext<IdentityUser>`.
+* *Note:* You will need to add a specific `using` statement for this to work.
+
+**It should now look like this:**
+
+*File: `DbContex.cs`*
+[source,csharp]
+....
+using CinemaApp.Domain;
+using Microsoft.AspNetCore.Identity; // Needed for IdentityUser
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore; // Needed for IdentityDbContext
+using Microsoft.EntityFrameworkCore;
+
+namespace CinemaApp.Data
+{
+    // Change: Inherit from IdentityDbContext, not just DbContext
+    public class CinemaDbContext : IdentityDbContext<IdentityUser>
+    {
+        ...
+    }
+}
+....
+
+=== 5.2 Identity Migrations
+
+We updated the C# code to include Users (`IdentityDbContext`), so now we must update the SQL database to create the necessary tables (like `AspNetUsers`, `AspNetRoles`, etc.).
+
+*1. Open the Terminal*
+
+* Right-click the **Solution 'CinemaApp'** -> **Open in Terminal**.
+
+*2. Create the Migration*
+Run this command to create the instructions for the new tables:
+
+[source,bash]
+....
+dotnet ef migrations add AddIdentity --project CinemaApp.Data --startup-project CinemaApp.API
+....
+
+*3. Update the Database*
+Run this command to actually create the tables in your SQL database:
+
+[source,bash]
+....
+dotnet ef database update --project CinemaApp.Data --startup-project CinemaApp.API
+....
+
+*4. Verify*
+If you see **`Done.`**, the tables are created.
+
+=== 5.3 Configuring Identity & JWT
+
+We need to tell the API to use the Identity system we just added to the database, and we need to set up **JWT (JSON Web Tokens)** so users can log in and get a "Key" to access the system.
+
+*1. Install JWT Package*
+
+* Right-click **`CinemaApp.API`** -> **Manage NuGet Packages**.
+* Search for: `Microsoft.AspNetCore.Authentication.JwtBearer`.
+* Click **Install**.
+* *2. Add Settings to `appsettings.json`*
+* Open `appsettings.json` in **`CinemaApp.API`**.
+* Add a `Jwt` section. The "Key" must be at least 32 characters long, or it will crash.
+
+*File: `appsettings.json`*
+[source,json]
+....
+{
+  "ConnectionStrings": { ... },
+  "Jwt": {
+    "Key": "ThisIsMySuperSecretKeyForCinemaApp2024!",
+    "Issuer": "https://localhost:7153",
+    "Audience": "https://localhost:7153"
+  },
+  "Logging": { ... }
+}
+....
+
+*3. Update `Program.cs`*
+
+* Open `Program.cs` in **`CinemaApp.API`**.
+* You need to add the services (Identity + Auth) and the Middleware (Turn on the security check).
+
+**Add this BLOCK before `builder.Build`:**
+
+*File: `Program.cs`*
+[source,csharp]
+....
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
+// ... existing code ...
+
+// 1. Register Identity (Users & Roles)
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<CinemaDbContext>()
+    .AddDefaultTokenProviders();
+
+// 2. Register Authentication (JWT)
+var jwtSettings = builder.Configuration.GetSection("Jwt");
+var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]!);
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings["Issuer"],
+        ValidAudience = jwtSettings["Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(key)
+    };
+});
+....
+
+**Add this BLOCK after `builder.Build`, specifically after `UseCors`:**
+
+*File: `Program.cs`*
+[source,csharp]
+....
+app.UseCors("AllowAll"); // We added this earlier
+
+// CRITICAL: Order matters! Auth must come before Authorization.
+app.UseAuthentication(); 
+app.UseAuthorization();
+
+app.MapControllers();
+....
+
+=== 5.4 The Auth Controller
+
+We need endpoints where users can send their Email/Password to either create an account or get a token.
+
+*1. Create Auth DTOs (In Shared Project)*
+The Client needs to send login data, so these DTOs must be in the **Shared** project.
+
+* In **`CinemaApp.Shared`**, go to the `DTOs` folder.
+* Add class `UserRegisterDto.cs`.
+* Add class `UserLoginDto.cs`.
+
+*File: `UserRegisterDto.cs`*
+[source,csharp]
+....
+using System.ComponentModel.DataAnnotations;
+
+namespace CinemaApp.Shared
+{
+    public class UserRegisterDto
+    {
+        [Required, EmailAddress]
+        public string Email { get; set; } = string.Empty;
+
+        [Required, MinLength(6)]
+        public string Password { get; set; } = string.Empty;
+    }
+}
+....
+
+*File: `UserLoginDto.cs`*
+[source,csharp]
+....
+using System.ComponentModel.DataAnnotations;
+
+namespace CinemaApp.Shared
+{
+    public class UserLoginDto
+    {
+        [Required]
+        public string Email { get; set; } = string.Empty;
+
+        [Required]
+        public string Password { get; set; } = string.Empty;
+    }
+}
+....
+
+*2. Create the Controller (In API Project)*
+
+* In **`CinemaApp.API`**, right-click `Controllers` -> **Add** -> **Controller (API Empty)**.
+* Name it `AuthController.cs`.
+
+*3. The Controller Code*
+This code takes care of the critical tasks: registering new users and generating their JWT access token.
+
+*File: `AuthController.cs`*
+[source,csharp]
+....
+using CinemaApp.Shared;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+
+namespace CinemaApp.API.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AuthController : ControllerBase
+    {
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IConfiguration _configuration;
+
+        public AuthController(UserManager<IdentityUser> userManager, IConfiguration configuration)
+        {
+            _userManager = userManager;
+            _configuration = configuration;
+        }
+
+        // POST: api/auth/register
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(UserRegisterDto request)
+        {
+            // 1. Create the IdentityUser object
+            var user = new IdentityUser { UserName = request.Email, Email = request.Email };
+            
+            // 2. Hash the password and save to DB
+            var result = await _userManager.CreateAsync(user, request.Password);
+
+            if (result.Succeeded)
+            {
+                return Ok(new { message = "Registration successful" });
+            }
+
+            return BadRequest(result.Errors);
+        }
+
+        // POST: api/auth/login
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(UserLoginDto request)
+        {
+            // 1. Check if user exists
+            var user = await _userManager.FindByEmailAsync(request.Email);
+            if (user == null) return BadRequest("User not found.");
+
+            // 2. Check password
+            var isPasswordValid = await _userManager.CheckPasswordAsync(user, request.Password);
+            if (!isPasswordValid) return BadRequest("Wrong password.");
+
+            // 3. Generate JWT Token
+            var token = GenerateJwtToken(user);
+
+            return Ok(new { Token = token });
+        }
+
+        private string GenerateJwtToken(IdentityUser user)
+        {
+            var jwtSettings = _configuration.GetSection("Jwt");
+            var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]!);
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.Name, user.UserName!)
+            };
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddDays(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+                Issuer = jwtSettings["Issuer"],
+                Audience = jwtSettings["Audience"]
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
+    }
+}
+....
+
+-----
+
+=== 5.5 Testing Auth with Swagger
+
+Before we secure the API, we need to make sure we can actually create users and generate keys (Tokens).
+
+*1. Run the App*
+
+* Press **F5** to start the project.
+* Go to the API Swagger page (e.g., `https://localhost:7153/swagger`).
+
+*2. Register a User*
+
+* Expand **`POST /api/Auth/register`**.
+* Click **Try it out**.
+* In the Request Body, paste this JSON (Identity requires a strong password by default: Uppercase, Lowercase, Number, Symbol):
+[source,json]
+....
+{
+  "email": "admin@cinema.com",
+  "password": "Password123!"
+}
+....
+* Click **Execute**.
+* **Success:** You should see Code 200 and `{"message":"Registration successful"}`.
+
+*3. Login*
+
+* Expand **`POST /api/Auth/login`**.
+* Click **Try it out**.
+* Paste the same JSON credentials.
+* Click **Execute**.
+
+*4. The Result*
+Look at the **Response body**. You will see a long string of random characters. **This is your JWT (Access Token).**
+
+[source,json]
+....
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc..."
+}
+....
+
+*5. Securing the Endpoints*
+
+*1. Protect the Controller (`MoviesController.cs`)*
+
+* Open `MoviesController.cs` in **`CinemaApp.API`**.
+* Add `using Microsoft.AspNetCore.Authorization;` at the top.
+* Add this **POST** endpoint inside the class. Notice the `[Authorize]` attribute.
+
+*File: `MoviesController.cs`*
+[source,csharp]
+....
+// POST: api/movies
+[HttpPost]
+[Authorize] // <--- This locks the door!
+public async Task<ActionResult<MovieDto>> CreateMovie(MovieDto movieDto)
+{
+    // 1. Map DTO -> Domain Entity
+    var movie = _mapper.Map<Movie>(movieDto);
+
+    // 2. Add to DB
+    _context.Movies.Add(movie);
+    await _context.SaveChangesAsync();
+
+    // 3. Map back to DTO for response
+    var returnDto = _mapper.Map<MovieDto>(movie);
+
+    return CreatedAtAction(nameof(GetMovie), new { id = returnDto.Id }, returnDto);
+}
+....
+
+*2. Test the Security*
+
+* Run the app (**F5**).
+* **Test:** Try to use `POST /api/movies` *without* doing anything else. You should get **401 Unauthorized**.
+
+=== 5.6 Add Admin Page
+
+Let's build a simple **Admin Page** in Blazor. This page will handle two things:
+
+. **Login:** To get the Token.
+. **Create Movie:** To send the data **with** the Token attached.
+
+*1. Create the Admin Page*
+
+* In **`CinemaApp.Client`**, right-click **`Pages`** -> **Add** -> **Razor Component**.
+* Name it: `Admin.razor`.
+
+*2. The Code*
+
+*File: `Admin.razor`*
+[source,csharp]
+....
+@page "/admin"
+@using CinemaApp.Shared
+@using System.Net.Http.Headers
+@using System.Text.Json
+@inject HttpClient Http
+
+<PageTitle>Admin Dashboard</PageTitle>
+
+<div class="container mt-4">
+    <h1>Admin Dashboard</h1>
+
+    @if (string.IsNullOrEmpty(jwtToken))
+    {
+        <div class="card p-4" style="max-width: 400px;">
+            <h3>Login</h3>
+            <div class="mb-3">
+                <label>Email</label>
+                <input @bind="loginModel.Email" class="form-control" placeholder="admin@cinema.com" />
+            </div>
+            <div class="mb-3">
+                <label>Password</label>
+                <input @bind="loginModel.Password" type="password" class="form-control" placeholder="Password123!" />
+            </div>
+            <button class="btn btn-primary" @onclick="Login">Login</button>
+            <p class="text-danger mt-2">@loginMessage</p>
+        </div>
+    }
+    else
+    {
+        <div class="card p-4">
+            <h3>Add New Movie</h3>
+            <div class="mb-3">
+                <label>Title</label>
+                <input @bind="newMovie.Title" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label>Description</label>
+                <textarea @bind="newMovie.Description" class="form-control"></textarea>
+            </div>
+            
+            <button class="btn btn-success" @onclick="CreateMovie">Create Movie</button>
+            <p class="mt-2">@createMessage</p>
+        </div>
+    }
+</div>
+
+@code {
+    // State
+    private string jwtToken = "";
+    private string loginMessage = "";
+    private string createMessage = "";
+
+    // Models
+    private UserLoginDto loginModel = new();
+    private MovieDto newMovie = new();
+
+    private async Task Login()
+    {
+        var response = await Http.PostAsJsonAsync("api/Auth/login", loginModel);
+        
+        if (response.IsSuccessStatusCode)
+        {
+            // Extract the token from the JSON response
+            var result = await response.Content.ReadFromJsonAsync<JsonElement>();
+            jwtToken = result.GetProperty("token").GetString()!;
+            loginMessage = "";
+        }
+        else
+        {
+            loginMessage = "Login failed. Check credentials.";
+        }
+    }
+
+    private async Task CreateMovie()
+    {
+        // 1. Create the Request manually
+        var request = new HttpRequestMessage(HttpMethod.Post, "api/Movies");
+        
+        // 2. Attach the Body (The Movie Data)
+        request.Content = JsonContent.Create(newMovie);
+
+        // 3. ATTACH THE HEADER (This is what Swagger was failing to do)
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
+
+        // 4. Send
+        var response = await Http.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            createMessage = "Success! Movie created.";
+            newMovie = new MovieDto(); // Reset form
+        }
+        else
+        {
+            createMessage = $"Error: {response.StatusCode}";
+        }
+    }
+}
+....
+
+*3. Test the Security*
+
+* Run the app (**F5**).
+* **Test:** Try to use `POST /api/movies` *without* doing anything else. You should get **401 Unauthorized**.
+
+=== 5.7 Linking the Admin Page and add Showtime Input
+Now we want to link the Admin Page on the Sidebar and also add Showtimes
+
+**Step 1: Add the Link to the Navigation Menu**
+
+Open **`Shared/NavMenu.razor`** in the **Client** project.
+
+Add this block inside the `<nav>` section (usually at the bottom of the list):
+
+*File: `NavMenu.razor`*
+[source,razor]
+....
+<div class="nav-item px-3">
+    <NavLink class="nav-link" href="admin">
+        <span class="bi bi-lock-fill" aria-hidden="true"></span> Admin
+    </NavLink>
+</div>
+....
+
+-----
+
+**Step 2: Update the Admin Page (With Showtimes)**
+
+We need to upgrade `Admin.razor`. We will add a "Mini Form" inside the main form.
+
+. **User enters Movie info** (Title/Description).
+. **User adds Showtimes** (Date/Price) -> clicks "Add Time". (This adds it to a temporary list).
+. **User clicks "Create Movie"** -> Sends the Movie **plus** all the Showtimes to the API in one go.
+
+**Replace the entire content of `Admin.razor` with the following:**
+
+[source,csharp]
+....
+@page "/admin"
+@using CinemaApp.Shared
+@using System.Net.Http.Headers
+@using System.Text.Json
+@inject HttpClient Http
+
+<PageTitle>Admin Dashboard</PageTitle>
+
+<div class="container mt-4">
+    <h1>Admin Dashboard</h1>
+
+    @if (string.IsNullOrEmpty(jwtToken))
+    {
+        <div class="card p-4 shadow-sm" style="max-width: 400px;">
+            <h3>Login</h3>
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input @bind="loginModel.Email" class="form-control" placeholder="admin@cinema.com" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input @bind="loginModel.Password" type="password" class="form-control" placeholder="Password123!" />
+            </div>
+            <button class="btn btn-primary w-100" @onclick="Login">Login</button>
+            <p class="text-danger mt-2">@loginMessage</p>
+        </div>
+    }
+    else
+    {
+        <div class="card p-4 shadow-sm">
+            <h3>Add New Movie</h3>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        <input @bind="newMovie.Title" class="form-control" placeholder="e.g. Inception" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea @bind="newMovie.Description" class="form-control" rows="3"></textarea>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card bg-light p-3">
+                        <h5>Add Showtimes</h5>
+                        <div class="d-flex gap-2 mb-2">
+                            <input @bind="tempShowtime.StartTime" type="datetime-local" class="form-control" />
+                            <input @bind="tempShowtime.TicketPrice" type="number" class="form-control" placeholder="Price" style="width: 100px;" />
+                            <button class="btn btn-secondary" @onclick="AddShowtimeToList">Add</button>
+                        </div>
+
+                        <ul class="list-group">
+                            @foreach (var show in newMovie.Showtimes)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>@show.StartTime.ToString("g") - $@show.TicketPrice</span>
+                                    <button class="btn btn-sm btn-danger" @onclick="() => newMovie.Showtimes.Remove(show)">X</button>
+                                </li>
+                            }
+                            @if (newMovie.Showtimes.Count == 0)
+                            {
+                                <li class="list-group-item text-muted">No showtimes added yet.</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+            <button class="btn btn-success btn-lg" @onclick="CreateMovie">Save Movie & Showtimes</button>
+            <p class="mt-2 fw-bold @(isSuccess ? "text-success" : "text-danger")">@createMessage</p>
+        </div>
+    }
+</div>
+
+@code {
+    // State
+    private string jwtToken = "";
+    private string loginMessage = "";
+    private string createMessage = "";
+    private bool isSuccess = false;
+
+    // Models
+    private UserLoginDto loginModel = new();
+    private MovieDto newMovie = new();
+    
+    // Temporary object for the inputs
+    private ShowtimeDto tempShowtime = new() { StartTime = DateTime.Now, TicketPrice = 12 };
+
+    private async Task Login()
+    {
+        var response = await Http.PostAsJsonAsync("api/Auth/login", loginModel);
+        
+        if (response.IsSuccessStatusCode)
+        {
+            var result = await response.Content.ReadFromJsonAsync<JsonElement>();
+            jwtToken = result.GetProperty("token").GetString()!;
+            loginMessage = "";
+        }
+        else
+        {
+            loginMessage = "Login failed. Check credentials.";
+        }
+    }
+
+    private void AddShowtimeToList()
+    {
+        // Add a COPY of the temp object to the list
+        newMovie.Showtimes.Add(new ShowtimeDto 
+        { 
+            StartTime = tempShowtime.StartTime, 
+            TicketPrice = tempShowtime.TicketPrice 
+        });
+    }
+
+    private async Task CreateMovie()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Post, "api/Movies");
+        request.Content = JsonContent.Create(newMovie);
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
+
+        var response = await Http.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            isSuccess = true;
+            createMessage = "Success! Movie and Showtimes created.";
+            newMovie = new MovieDto(); // Reset form
+            newMovie.Showtimes = new List<ShowtimeDto>(); // Reset list
+        }
+        else
+        {
+            isSuccess = false;
+            createMessage = $"Error: {response.StatusCode}";
+        }
+    }
+}
+....
+
+How to Test This Final Flow:
+
+1. Run the app.
+2. Click **Admin** in the side menu.
+3. Login (`admin@cinema.com` / `Password123!`).
+4. Enter a Title ("Interstellar").
+5. On the right side, pick a date and price, then click **Add**. Do this 2 or 3 times.
+6. Click **Save Movie & Showtimes**.
+7. Go back to **Home**.
+8. Click **View Showtimes** on your new card. You should see all the times you just added!

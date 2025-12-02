@@ -1,0 +1,308 @@
+== 2 Database
+
+=== 2.1 Create Domain Classes
+In Visual Studio Solution Explorer, expand the `CinemaApp.Domain` project.
+Delete the default `Class1.cs` file (right-click -> Delete).
+Right-click `CinemaApp.Domain` -> **Add** -> **Class**. Name it `Movie.cs`.
+Right-click `CinemaApp.Domain` -> **Add** -> **Class**. Name it `Showtime.cs`.
+
+*File: `Movie.cs`*
+[source,csharp]
+....
+using System.Collections.Generic;
+
+namespace CinemaApp.Domain
+{
+    public class Movie
+    {
+        public int Id { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        
+        // This will be handled automatically by the DbContext later
+        public DateTime LastModified { get; set; }
+
+        // Relationship: One Movie has many Showtimes
+        // We initialize it to an empty list to avoid NullReferenceExceptions
+        public List<Showtime> Showtimes { get; set; } = new List<Showtime>();
+    }
+}
+....
+
+*File: `Showtime.cs`*
+[source,csharp]
+....
+namespace CinemaApp.Domain
+{
+    public class Showtime
+    {
+        public int Id { get; set; }
+        public DateTime StartTime { get; set; }
+        public decimal TicketPrice { get; set; }
+        
+        public DateTime LastModified { get; set; }
+
+        // Foreign Key: Links this showtime to a specific Movie ID
+        public int MovieId { get; set; }
+
+        // Navigation Property: Allows us to access the full Movie object if needed
+        public Movie? Movie { get; set; }
+    }
+}
+....
+
+=== 2.2 Add EF Core
+
+*1. Open NuGet Package Manager for the Solution*
+* Right-click on the Solution `Solution 'CinemaApp'` at the very top of Solution Explorer.
+* Select **Manage NuGet Packages for Solution...**.
+* Click on the **Browse** tab in the top left.
+
+*2. Install `Microsoft.EntityFrameworkCore`*
+* Search for: `Microsoft.EntityFrameworkCore.SqlServer`
+* Click on it in the list.
+* Check the box for **`CinemaApp.Data`** and **`CinemaApp.API`**.
+* Click **Install** (and Accept any license prompts).
+
+*3. Install `Microsoft.EntityFrameworkCore.SqlServer`*
+* Search for: `Microsoft.EntityFrameworkCore.SqlServer`
+* Click on it in the list.
+* Check the box for **`CinemaApp.Data`** and **`CinemaApp.API`**.
+* Click **Install** (and Accept any license prompts).
+
+*4. Install `Microsoft.EntityFrameworkCore.Tools`*
+* Search for: `Microsoft.EntityFrameworkCore.Tools`
+* Check the box for **`CinemaApp.Data`** and **`CinemaApp.API`**.
+* Click **Install**.
+
+*5. Install `Microsoft.EntityFrameworkCore.Design`*
+* Search for: `Microsoft.EntityFrameworkCore.Design`
+* Check the box for **`CinemaApp.Data`** and **`CinemaApp.API`**.
+* Click **Install**.
+
+=== 2.3 Add the DBContext
+
+The `DbContext` is the bridge between your C# code and the database. It handles saving, retrieving, and tracking changes. We will put this in the **`CinemaApp.Data`** project.
+
+. In Visual Studio Solution Explorer, right-click **`CinemaApp.Data`**.
+. Select **Add** -> **Class**.
+. Name it `CinemaDbContext.cs`.
+. Click **Add**.
+
+Paste this code into the file. This includes the logic to automatically update `LastModified` whenever you save, so you never have to think about it.
+
+*File: `CinemaDbContext.cs`*
+[source,csharp]
+....
+using CinemaApp.Domain;
+using Microsoft.EntityFrameworkCore;
+
+namespace CinemaApp.Data
+{
+    public class CinemaDbContext : DbContext
+    {
+        // Constructor: Passes configuration (like connection strings) to the base class
+        public CinemaDbContext(DbContextOptions<CinemaDbContext> options) : base(options)
+        {
+        }
+
+        // These properties act as tables in your database
+        public DbSet<Movie> Movies { get; set; }
+        public DbSet<Showtime> Showtimes { get; set; }
+
+        // Logic to automate LastModified
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            foreach (var entry in ChangeTracker.Entries<Movie>())
+            {
+                if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
+                {
+                    entry.Entity.LastModified = DateTime.UtcNow;
+                }
+            }
+
+            foreach (var entry in ChangeTracker.Entries<Showtime>())
+            {
+                if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
+                {
+                    entry.Entity.LastModified = DateTime.UtcNow;
+                }
+            }
+
+            return base.SaveChangesAsync(cancellationToken);
+        }
+    }
+}
+....
+
+You now have a fully configured Database Context with automatic auditing.
+
+=== 2.4 Connection String & Registration
+
+We need to tell the API *where* the database is (the Connection String) and *how* to use it (Dependency Injection).
+
+*1. Add Connection String (`appsettings.json`)*
+* Open `appsettings.json` in the **`CinemaApp.API`** project.
+* Add the `"ConnectionStrings"` section before `"Logging"`.
+* We will use **LocalDB**, which comes installed with Visual Studio, so you don't need to install a separate SQL Server.
+
+*File: `appsettings.json`*
+[source,json]
+....
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=CinemaDb;Trusted_Connection=True;MultipleActiveResultSets=true"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
+}
+....
+
+*2. Register DbContext (`Program.cs`)*
+* Open `Program.cs` in the **`CinemaApp.API`** project.
+* Add the following code below `var builder = WebApplication.CreateBuilder(args);`.
+* **Note:** You will need to add `using CinemaApp.Data;` and `using Microsoft.EntityFrameworkCore;` at the top of the file (hover over the red squiggles to fix them).
+
+*File: `Program.cs`*
+[source,csharp]
+....
+using CinemaApp.Data; // Add this
+using Microsoft.EntityFrameworkCore; // Add this
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
+// --- START: Add this block ---
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<CinemaDbContext>(options =>
+    options.UseSqlServer(connectionString, 
+        // CRITICAL: Tell EF Core that migrations live in the Data project, not here.
+        b => b.MigrationsAssembly("CinemaApp.Data")));
+// --- END: Add this block ---
+
+builder.Services.AddControllers();
+// ... rest of the file
+....
+
+=== 2.5 Migrations
+
+*1. Open a Terminal*
+
+* Right-click on the **Solution 'CinemaApp'**.
+* Select **Open in Terminal**.
+* A Developer PowerShell window will open inside VS.
+
+*2. Install the EF Tool*
+
+[source,bash]
+....
+dotnet tool install --global dotnet-ef
+....
+
+*(If it says it's already installed, that's fine).*
+
+*3. Run the Migration Command*
+[source,bash]
+....
+dotnet ef migrations add InitialCreate --project CinemaApp.Data --startup-project CinemaApp.API
+....
+
+*4. Update the Database*
+
+[source,bash]
+....
+dotnet ef database update --project CinemaApp.Data --startup-project CinemaApp.API
+....
+
+After the "Build Succeeded" message, just say "Next".
+Now, we have a database, but it is empty.
+
+=== 2.6 Seeding Data
+
+We will create a helper class that inserts some sample movies (like "Dune" and "Barbie") automatically when the app starts.
+
+*1. Create the Seeder Class*
+* In **Solution Explorer**, right-click the **`CinemaApp.Data`** project.
+* Select **Add** -> **Class**.
+* Name it `DbSeeder.cs`.
+
+*2. Paste the Seeder Logic*
+Copy this code into `DbSeeder.cs`. It checks if the DB is empty, and if so, adds data.
+
+*File: `DbSeeder.cs`*
+[source,csharp]
+....
+using CinemaApp.Domain;
+
+namespace CinemaApp.Data
+{
+    public static class DbSeeder
+    {
+        public static void Seed(CinemaDbContext context)
+        {
+            // 1. Check if database is already populated
+            if (context.Movies.Any())
+            {
+                return; // DB has been seeded
+            }
+
+            // 2. Create Dummy Data
+            var dune = new Movie
+            {
+                Title = "Dune: Part Two",
+                Description = "Paul Atreides unites with Chani and the Fremen.",
+                Showtimes = new List<Showtime>
+                {
+                    new Showtime { StartTime = DateTime.UtcNow.AddDays(1).AddHours(18), TicketPrice = 14.50m },
+                    new Showtime { StartTime = DateTime.UtcNow.AddDays(1).AddHours(21), TicketPrice = 14.50m }
+                }
+            };
+
+            var barbie = new Movie
+            {
+                Title = "Barbie",
+                Description = "Barbie suffers a crisis that leads her to question her world and her existence.",
+                Showtimes = new List<Showtime>
+                {
+                    new Showtime { StartTime = DateTime.UtcNow.AddDays(2).AddHours(16), TicketPrice = 12.00m }
+                }
+            };
+
+            // 3. Add to Context and Save
+            context.Movies.AddRange(dune, barbie);
+            context.SaveChanges();
+        }
+    }
+}
+....
+
+*3. Run the Seeder on Startup*
+* Open `Program.cs` in the **`CinemaApp.API`** project.
+* Find the line `var app = builder.Build();`.
+* Paste this code block **immediately after** that line:
+
+*File: `Program.cs`*
+[source,csharp]
+....
+var app = builder.Build(); // This line already exists
+
+// --- START: Add this Seeding Block ---
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<CinemaDbContext>();
+    DbSeeder.Seed(context);
+}
+// --- END: Seeding Block ---
+....
+
+*4. Test It*
+* Run the API project (Press **F5** or click the Green Play button).
+* You won't see the data yet (because we haven't built the API endpoints), but the code will run and populate your SQL table silently.
+* You can Close the browser window that opens.

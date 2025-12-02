@@ -1,0 +1,234 @@
+== 3 API
+
+=== 3.1: Creating the Shared DTO Project
+
+We will create a new library specifically for things shared between Client and Server.
+
+*1. Create the Project*
+* Right-click on **Solution 'CinemaApp'**.
+* Select **Add** -> **New Project**.
+* Select **Class Library**.
+* Name it: **`CinemaApp.Shared`**.
+* Click **Create**.
+
+*2. Add References (Wiring it up)*
+* **API needs Shared:** Right-click `CinemaApp.API` -> **Add** -> **Project Reference** -> Check `CinemaApp.Shared`.
+* **Client needs Shared:** Right-click `CinemaApp.Client` -> **Add** -> **Project Reference** -> Check `CinemaApp.Shared`.
+
+*3. Move the DTOs*
+* In the new **`CinemaApp.Shared`** project, create a new folder named `DTOs`.
+* Add the classes `MovieDto.cs` and `ShowtimeDto.cs` inside that folder.
+
+*4. The Code*
+
+*File: `ShowtimeDto.cs`*
+[source,csharp]
+....
+namespace CinemaApp.Shared.DTOs
+{
+    public class ShowtimeDto
+    {
+        public int Id { get; set; }
+        public DateTime StartTime { get; set; }
+        public decimal TicketPrice { get; set; }
+    }
+}
+....
+
+*File: `MovieDto.cs`*
+[source,csharp]
+....
+namespace CinemaApp.Shared.DTOs
+{
+    public class MovieDto
+    {
+        public int Id { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public List<ShowtimeDto> Showtimes { get; set; } = new();
+    }
+}
+....
+
+=== 3.2 Automapper Setup
+Now we need to teach the API how to automatically copy data from your Database Entities (Domain) to your public DTOs (Shared).
+
+*1. Install the AutoMapper Package*
+
+* Right-click **`CinemaApp.API`** -> **Manage NuGet Packages**.
+* Search for: `AutoMapper.Extensions.Microsoft.DependencyInjection`
+* Click **Install**.
+
+*2. Create the Mapping Profile*
+
+* In **`CinemaApp.API`**, create a new folder named `Mappings`.
+* Add a new class named `MappingProfile.cs`.
+* Paste this code:
+
+*File: `MappingProfile.cs`*
+[source,csharp]
+....
+using AutoMapper;
+using CinemaApp.Domain;
+using CinemaApp.Shared.DTOs;
+
+namespace CinemaApp.API.Mappings
+{
+    public class MappingProfile : Profile
+    {
+        public MappingProfile()
+        {
+            // Map Domain -> DTO
+            CreateMap<Movie, MovieDto>();
+            CreateMap<Showtime, ShowtimeDto>();
+
+            // Map DTO -> Domain (for creating new items later)
+            CreateMap<MovieDto, Movie>();
+            CreateMap<ShowtimeDto, Showtime>();
+        }
+    }
+}
+....
+
+*3. Register it in Program.cs*
+
+* Open `Program.cs` in **`CinemaApp.API`**.
+* Add this line just before `var app = builder.Build();`:
+
+*File: `Program.cs`*
+[source,csharp]
+....
+var mapperConfig = new MapperConfiguration(mc =>
+{
+    mc.AddProfile(new MappingProfile());
+}, NullLoggerFactory.Instance);
+    
+IMapper mapper = mapperConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
+....
+
+=== 3.3 Adding the MoviesController
+We will now create the API endpoint that fetches data from the Database, converts it to DTOs using AutoMapper, and sends it to the client.
+
+. In **Solution Explorer**, expand the **`CinemaApp.API`** project.
+. Right-click the **`Controllers`** folder.
+. Select **Add** -> **Controller**.
+. Select **API Controller - Empty**.
+. Name it `MoviesController.cs`.
+. Click **Add**.
+
+*File: `MoviesController.cs`*
+[source,csharp]
+....
+using AutoMapper;
+using CinemaApp.Data;
+using CinemaApp.Domain;
+using CinemaApp.Shared.DTOs;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace CinemaApp.API.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class MoviesController : ControllerBase
+    {
+        private readonly CinemaDbContext _context;
+        private readonly IMapper _mapper;
+
+        // Dependency Injection: Requesting the DB and the Mapper
+        public MoviesController(CinemaDbContext context, IMapper mapper)
+        {
+            _context = context;
+            _mapper = mapper;
+        }
+
+        // GET: api/movies
+        [HttpGet]
+        public async Task<ActionResult<List<MovieDto>>> GetMovies()
+        {
+            // 1. Fetch from DB (Entities)
+            // We use .Include() to fetch the related Showtimes
+            var movies = await _context.Movies
+                                       .Include(m => m.Showtimes)
+                                       .ToListAsync();
+
+            // 2. Convert to DTOs using AutoMapper
+            var movieDtos = _mapper.Map<List<MovieDto>>(movies);
+
+            // 3. Return JSON
+            return Ok(movieDtos);
+        }
+
+        // GET: api/movies/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<MovieDto>> GetMovie(int id)
+        {
+            var movie = await _context.Movies
+                                      .Include(m => m.Showtimes)
+                                      .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            var movieDto = _mapper.Map<MovieDto>(movie);
+            
+            return Ok(movieDto);
+        }
+    }
+}
+....
+
+You now have a working read-only API!
+
+=== 3.4 Add Swagger
+To add Swagger to the project we need to add its Nuget Package.
+
+*1. Open NuGet Package Manager for the Solution*
+* Right-click on the Solution `Solution 'CinemaApp'` at the very top of Solution Explorer.
+* Select **Manage NuGet Packages for Solution...**.
+* Click on the **Browse** tab in the top left.
+
+*2. Install `Swashbuckle`, `Swashbuckle.AspNetCore` and `Swashbuckle.AspNetCore.Swagger`*
+* Search for: `Microsoft.EntityFrameworkCore.Swashbuckle`
+* Select the respective package in the list.
+* Check the box for **`CinemaApp.API`**.
+* Click **Install** (and Accept any license prompts).
+* Do this for all 3 packages
+
+We also need to add Swagger in our Program.cs in the CinemaApp.API
+
+*File: `Program.cs`*
+
+[source,csharp]
+....
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+....
+
+[source,csharp]
+....
+app.UseSwagger();
+app.UseSwaggerUI();
+....
+
+We also need to add a new launchConfig in the CinameApp.API/Properties/launchSettings.json
+
+*File: `launchSettings.json`*
+[source,json]
+....
+"CinemaApp.API": {
+  "commandName": "Project",
+  "dotnetRunMessages": true,
+  "launchBrowser": true,
+  "launchUrl": "swagger",
+  "applicationUrl": "https://localhost:7153;http://localhost:5153",
+  "environmentVariables": {
+    "ASPNETCORE_ENVIRONMENT": "Development"
+  }
+}
+....
+
+Now you can select **CinemaApp.API** in the dropdown next to the green Play button to run the API. If doing so the Swagger UI will open in a browser where you can test the implemented Endpoints.

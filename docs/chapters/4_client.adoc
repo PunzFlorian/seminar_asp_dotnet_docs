@@ -1,0 +1,296 @@
+== 4 Client
+In this section we will build a Blazor webpage wich fetches data from the api and displays it.
+
+=== 4.1 Enable CORS (Cross-Origin Resource Sharing)
+
+**Why do we need to do this?**
+Your API is running on `https://localhost:7000`.
+Your Blazor App will run on a *different* port (like `localhost:5000`).
+Browsers block this communication by default for security. We must tell the API it is okay to accept requests from outside.
+
+*1. Open `Program.cs` in `CinemaApp.API`*
+You need to add two pieces of code here.
+
+*2. Add the Service (Before `builder.Build()`)*
+Scroll up to where `builder.Services...` lines are, and add this block:
+
+*File: `Program.cs`*
+[source,csharp]
+....
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy => 
+    {
+        policy.AllowAnyOrigin()  // Allows Blazor (on any port) to connect
+              .AllowAnyMethod()  // Allows GET, POST, PUT, etc.
+              .AllowAnyHeader();
+    });
+});
+....
+
+*3. Use the Middleware (After `builder.Build()`)*
+Scroll down. 
+**Crucial:** Place this line **before** `app.UseAuthorization()` and `app.MapControllers()`.
+
+*File: `Program.cs`*
+[source,csharp]
+....
+app.UseCors("AllowAll");
+....
+
+=== 4.2 Configuring the Blazor Client
+
+We need to tell the Frontend exactly where the Backend lives. By default, Blazor tries to talk to itself, so we must change that to point to your API port (`7000`).
+
+*1. Open `Program.cs` in `CinemaApp.Client`*
+
+* Make sure you are in the **Client** project, not the API.
+
+*2. Update the HttpClient*
+
+* Find the line starting with `builder.Services.AddScoped...`.
+* It usually looks like this:
+  `sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) }`
+* **Replace** that entire line with this code:
+
+*File: `Program.cs`*
+[source,csharp]
+....
+// Point the HttpClient to your API's specific URL
+builder.Services.AddScoped(sp => 
+    new HttpClient { BaseAddress = new Uri("https://localhost:7000") });
+....
+
+Your Frontend now has a direct line to the Backend.
+
+=== 4.3 The Movie Card Component
+
+We will create a reusable UI block (a "Component") to display a single movie. This keeps our code clean and lets us display 10 or 100 movies easily by just repeating this block.
+
+*1. Create a Components Folder*
+
+* In **Solution Explorer**, right-click the **`CinemaApp.Client`** project.
+* Select **Add** -> **New Folder**.
+* Name it `Components`.
+
+*2. Create the Razor Component*
+
+* Right-click the new `Components` folder.
+* Select **Add** -> **Razor Component**.
+* Name it `MovieCard.razor`.
+* Click **Add**.
+
+*3. The Code*
+Paste this code into `MovieCard.razor`. We use standard Bootstrap classes (which come pre-installed with Blazor).
+
+*File: `MovieCard.razor`*
+[source,csharp]
+....
+@using CinemaApp.Shared.DTOs
+
+<div class="card h-100" style="width: 18rem;">
+    <img src="https://via.placeholder.com/286x180?text=Cinema+Movie" class="card-img-top" alt="...">
+    
+    <div class="card-body">
+        <h5 class="card-title">@Movie.Title</h5>
+        <p class="card-text">@ShortDescription</p>
+        
+        <a href="/movie/@Movie.Id" class="btn btn-primary">
+            View Showtimes
+        </a>
+    </div>
+</div>
+
+@code {
+    // [Parameter] means "Parent, please pass this data to me!"
+    [Parameter]
+    public MovieDto Movie { get; set; } = new();
+
+    // Helper to truncate long descriptions
+    public string ShortDescription 
+    {
+        get 
+        {
+            if (string.IsNullOrEmpty(Movie.Description)) return "";
+            if (Movie.Description.Length > 50) return Movie.Description.Substring(0, 50) + "...";
+            return Movie.Description;
+        }
+    }
+}
+....
+
+=== 4.4 The Movie Grid Page
+
+We will now modify the home page to fetch the list of movies from your API and display them in a responsive grid using the component we just made.
+
+*1. Open `Home.razor`*
+* In **`CinemaApp.Client`**, expand the **`Pages`** folder.
+* Open **`Home.razor`**.
+* **Delete everything** currently in that file.
+
+*2. The Code*
+Paste this code in. It handles the "Loading" state (while fetching data) and then loops through the results.
+
+*File: `Home.razor`*
+[source,csharp]
+....
+@page "/"
+@using CinemaApp.Shared.DTOs
+@using CinemaApp.Client.Components
+@inject HttpClient Http
+
+<PageTitle>Cinema Schedule</PageTitle>
+
+<div class="container">
+    <h1 class="my-4">Now Showing</h1>
+
+    @if (movies == null)
+    {
+        <div class="alert alert-info">Loading movies...</div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var movie in movies)
+            {
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <MovieCard Movie="movie" />
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    private List<MovieDto>? movies;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Fetch the data from the API
+        movies = await Http.GetFromJsonAsync<List<MovieDto>>("api/movies");
+    }
+}
+....
+
+=== 4.5 Running the Full Stack
+
+Now it's time to bring everything together.
+We will run both the API and the Client at the same time so they can communicate with each other.
+
+*1. Configure Multiple Startup Projects*
+* In **Solution Explorer**, right-click the very top **Solution 'CinemaApp'**.
+* Select **Properties** (it might be labeled "Set Startup Projects...").
+* In the dialog that appears:
+.. Select **Multiple startup projects**.
+.. Find **`CinemaApp.API`**: Change Action to **Start**.
+.. Find **`CinemaApp.Client`**: Change Action to **Start**.
+.. (Optional) Click the "Up" arrow on `CinemaApp.API` to make sure it starts first.
+* Click **OK** (or Apply).
+image::ASP.NET Tutorial (1)-_uploads-B1e2hOO_--e.png[Screenshot 2025-11-29 144406]
+
+*2. Run the Solution*
+* Press **F5** (or click the Green Play button).
+* **Two** things should happen:
+.. A console window opens (The API).
+.. A browser window opens (The Blazor Client).
+
+*3. Verify*
+* Look at the web page.
+* **Success:** You should see "Now Showing" and two nice cards for "Dune: Part Two" and "Barbie".
+* **Failure:** If you see "Loading..." forever, check the browser console (F12) for red errors (usually CORS or Port mismatches).
+
+=== 4.6 The Details Page
+
+Now we will create the page that shows the specific showtimes when a user clicks on a movie card. This connects the "View Showtimes" button we made earlier to actual data.
+
+*1. Create the Razor Page*
+
+* In **`CinemaApp.Client`**, right-click the **`Pages`** folder.
+* Select **Add** -> **Razor Component**.
+* Name it `MovieDetail.razor`.
+
+*2. The Code*
+Paste this code. Notice the `@page` directive at the top—it tells Blazor this page handles URLs like `/movie/1`.
+
+*File: `MovieDetail.razor`*
+[source,csharp]
+....
+@page "/movie/{id:int}"
+@using CinemaApp.Shared.DTOs
+@inject HttpClient Http
+
+<PageTitle>Movie Details</PageTitle>
+
+@if (movie == null)
+{
+    <div class="container mt-4">
+        <div class="alert alert-info">Loading details...</div>
+    </div>
+}
+else
+{
+    <div class="container mt-4">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title">@movie.Title</h2>
+                <p class="card-text text-muted">@movie.Description</p>
+                <a href="/" class="btn btn-outline-secondary">← Back to List</a>
+            </div>
+        </div>
+
+        <h3>Showtimes</h3>
+        @if (movie.Showtimes == null || !movie.Showtimes.Any())
+        {
+            <p>No showtimes available.</p>
+        }
+        else
+        {
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var show in movie.Showtimes)
+                    {
+                        <tr>
+                            <td>@show.StartTime.ToLocalTime().ToString("MMM dd, yyyy")</td>
+                            <td>@show.StartTime.ToLocalTime().ToString("HH:mm")</td>
+                            
+                            <td>$@show.TicketPrice.ToString("F2")</td>
+                            <td>
+                                <button class="btn btn-success btn-sm">Buy Ticket</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private MovieDto? movie;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Fetch the specific movie (including showtimes) by ID
+        movie = await Http.GetFromJsonAsync<MovieDto>($"api/movies/{Id}");
+    }
+}
+....
+
+*3. Test the Full Flow*
+
+* Press **F5** to run the app again.
+* On the Home page, click the **"View Showtimes"** button on "Dune: Part Two".
+* You should go to a new page showing the description and a table with the times we seeded earlier (tomorrow's date).
+
+You now have a fully functional public application. Users can browse movies and see schedules.

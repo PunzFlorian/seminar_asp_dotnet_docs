@@ -1,0 +1,16 @@
+= ASP.NET Tutorial
+:toc: left
+:toc-title: Table of Contents
+:lang: en
+:author:
+:revdate:
+
+// Custom front matter/attributes are defined here
+:imagesdir: .
+
+// Include each chapter file. The [] is important!
+include::chapters/1_initial_setup.adoc[]
+include::chapters/2_database.adoc[]
+include::chapters/3_api.adoc[]
+include::chapters/4_client.adoc[]
+include::chapters/5_identity.adoc[]
