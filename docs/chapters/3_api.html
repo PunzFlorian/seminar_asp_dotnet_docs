@@ -433,6 +433,124 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<style>
+pre.rouge table td { padding: 5px; }
+pre.rouge table pre { margin: 0; }
+pre.rouge, pre.rouge .w {
+  color: #24292f;
+  background-color: #f6f8fa;
+}
+pre.rouge .k, pre.rouge .kd, pre.rouge .kn, pre.rouge .kp, pre.rouge .kr, pre.rouge .kt, pre.rouge .kv {
+  color: #cf222e;
+}
+pre.rouge .gr {
+  color: #f6f8fa;
+}
+pre.rouge .gd {
+  color: #82071e;
+  background-color: #ffebe9;
+}
+pre.rouge .nb {
+  color: #953800;
+}
+pre.rouge .nc {
+  color: #953800;
+}
+pre.rouge .no {
+  color: #953800;
+}
+pre.rouge .nn {
+  color: #953800;
+}
+pre.rouge .sr {
+  color: #116329;
+}
+pre.rouge .na {
+  color: #116329;
+}
+pre.rouge .nt {
+  color: #116329;
+}
+pre.rouge .gi {
+  color: #116329;
+  background-color: #dafbe1;
+}
+pre.rouge .ges {
+  font-weight: bold;
+  font-style: italic;
+}
+pre.rouge .kc {
+  color: #0550ae;
+}
+pre.rouge .l, pre.rouge .ld, pre.rouge .m, pre.rouge .mb, pre.rouge .mf, pre.rouge .mh, pre.rouge .mi, pre.rouge .il, pre.rouge .mo, pre.rouge .mx {
+  color: #0550ae;
+}
+pre.rouge .sb {
+  color: #0550ae;
+}
+pre.rouge .bp {
+  color: #0550ae;
+}
+pre.rouge .ne {
+  color: #0550ae;
+}
+pre.rouge .nl {
+  color: #0550ae;
+}
+pre.rouge .py {
+  color: #0550ae;
+}
+pre.rouge .nv, pre.rouge .vc, pre.rouge .vg, pre.rouge .vi, pre.rouge .vm {
+  color: #0550ae;
+}
+pre.rouge .o, pre.rouge .ow {
+  color: #0550ae;
+}
+pre.rouge .gh {
+  color: #0550ae;
+  font-weight: bold;
+}
+pre.rouge .gu {
+  color: #0550ae;
+  font-weight: bold;
+}
+pre.rouge .s, pre.rouge .sa, pre.rouge .sc, pre.rouge .dl, pre.rouge .sd, pre.rouge .s2, pre.rouge .se, pre.rouge .sh, pre.rouge .sx, pre.rouge .s1, pre.rouge .ss {
+  color: #0a3069;
+}
+pre.rouge .nd {
+  color: #8250df;
+}
+pre.rouge .nf, pre.rouge .fm {
+  color: #8250df;
+}
+pre.rouge .err {
+  color: #f6f8fa;
+  background-color: #82071e;
+}
+pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cm, pre.rouge .cp, pre.rouge .cpf, pre.rouge .c1, pre.rouge .cs {
+  color: #6e7781;
+}
+pre.rouge .gl {
+  color: #6e7781;
+}
+pre.rouge .gt {
+  color: #6e7781;
+}
+pre.rouge .ni {
+  color: #24292f;
+}
+pre.rouge .si {
+  color: #24292f;
+}
+pre.rouge .ge {
+  color: #24292f;
+  font-style: italic;
+}
+pre.rouge .gs {
+  color: #24292f;
+  font-weight: bold;
+}
+</style>
 </head>
 <body class="article">
 <div id="header">
@@ -472,15 +590,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-csharp" data-lang="csharp">namespace CinemaApp.Shared.DTOs
-{
-    public class ShowtimeDto
-    {
-        public int Id { get; set; }
-        public DateTime StartTime { get; set; }
-        public decimal TicketPrice { get; set; }
-    }
-}</code></pre>
+<pre class="rouge highlight"><code data-lang="csharp"><span class="k">namespace</span> <span class="nn">CinemaApp.Shared.DTOs</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">class</span> <span class="nc">ShowtimeDto</span>
+    <span class="p">{</span>
+        <span class="k">public</span> <span class="kt">int</span> <span class="n">Id</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+        <span class="k">public</span> <span class="n">DateTime</span> <span class="n">StartTime</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+        <span class="k">public</span> <span class="kt">decimal</span> <span class="n">TicketPrice</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -488,16 +606,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-csharp" data-lang="csharp">namespace CinemaApp.Shared.DTOs
-{
-    public class MovieDto
-    {
-        public int Id { get; set; }
-        public string Title { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
-        public List&lt;ShowtimeDto&gt; Showtimes { get; set; } = new();
-    }
-}</code></pre>
+<pre class="rouge highlight"><code data-lang="csharp"><span class="k">namespace</span> <span class="nn">CinemaApp.Shared.DTOs</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">class</span> <span class="nc">MovieDto</span>
+    <span class="p">{</span>
+        <span class="k">public</span> <span class="kt">int</span> <span class="n">Id</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+        <span class="k">public</span> <span class="kt">string</span> <span class="n">Title</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span><span class="p">;</span>
+        <span class="k">public</span> <span class="kt">string</span> <span class="n">Description</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span><span class="p">;</span>
+        <span class="k">public</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">ShowtimeDto</span><span class="p">&gt;</span> <span class="n">Showtimes</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span> <span class="p">=</span> <span class="k">new</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre>
 </div>
 </div>
 </div>
@@ -543,26 +661,26 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-csharp" data-lang="csharp">using AutoMapper;
-using CinemaApp.Domain;
-using CinemaApp.Shared.DTOs;
+<pre class="rouge highlight"><code data-lang="csharp"><span class="k">using</span> <span class="nn">AutoMapper</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">CinemaApp.Domain</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">CinemaApp.Shared.DTOs</span><span class="p">;</span>
 
-namespace CinemaApp.API.Mappings
-{
-    public class MappingProfile : Profile
-    {
-        public MappingProfile()
-        {
-            // Map Domain -&gt; DTO
-            CreateMap&lt;Movie, MovieDto&gt;();
-            CreateMap&lt;Showtime, ShowtimeDto&gt;();
+<span class="k">namespace</span> <span class="nn">CinemaApp.API.Mappings</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">class</span> <span class="nc">MappingProfile</span> <span class="p">:</span> <span class="n">Profile</span>
+    <span class="p">{</span>
+        <span class="k">public</span> <span class="nf">MappingProfile</span><span class="p">()</span>
+        <span class="p">{</span>
+            <span class="c1">// Map Domain -&gt; DTO</span>
+            <span class="n">CreateMap</span><span class="p">&lt;</span><span class="n">Movie</span><span class="p">,</span> <span class="n">MovieDto</span><span class="p">&gt;();</span>
+            <span class="n">CreateMap</span><span class="p">&lt;</span><span class="n">Showtime</span><span class="p">,</span> <span class="n">ShowtimeDto</span><span class="p">&gt;();</span>
 
-            // Map DTO -&gt; Domain (for creating new items later)
-            CreateMap&lt;MovieDto, Movie&gt;();
-            CreateMap&lt;ShowtimeDto, Showtime&gt;();
-        }
-    }
-}</code></pre>
+            <span class="c1">// Map DTO -&gt; Domain (for creating new items later)</span>
+            <span class="n">CreateMap</span><span class="p">&lt;</span><span class="n">MovieDto</span><span class="p">,</span> <span class="n">Movie</span><span class="p">&gt;();</span>
+            <span class="n">CreateMap</span><span class="p">&lt;</span><span class="n">ShowtimeDto</span><span class="p">,</span> <span class="n">Showtime</span><span class="p">&gt;();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -583,13 +701,13 @@ namespace CinemaApp.API.Mappings
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-csharp" data-lang="csharp">var mapperConfig = new MapperConfiguration(mc =&gt;
-{
-    mc.AddProfile(new MappingProfile());
-}, NullLoggerFactory.Instance);
+<pre class="rouge highlight"><code data-lang="csharp"><span class="kt">var</span> <span class="n">mapperConfig</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">MapperConfiguration</span><span class="p">(</span><span class="n">mc</span> <span class="p">=&gt;</span>
+<span class="p">{</span>
+    <span class="n">mc</span><span class="p">.</span><span class="nf">AddProfile</span><span class="p">(</span><span class="k">new</span> <span class="nf">MappingProfile</span><span class="p">());</span>
+<span class="p">},</span> <span class="n">NullLoggerFactory</span><span class="p">.</span><span class="n">Instance</span><span class="p">);</span>
 
-IMapper mapper = mapperConfig.CreateMapper();
-builder.Services.AddSingleton(mapper);</code></pre>
+<span class="n">IMapper</span> <span class="n">mapper</span> <span class="p">=</span> <span class="n">mapperConfig</span><span class="p">.</span><span class="nf">CreateMapper</span><span class="p">();</span>
+<span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="nf">AddSingleton</span><span class="p">(</span><span class="n">mapper</span><span class="p">);</span></code></pre>
 </div>
 </div>
 </div>
@@ -625,65 +743,65 @@ builder.Services.AddSingleton(mapper);</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-csharp" data-lang="csharp">using AutoMapper;
-using CinemaApp.Data;
-using CinemaApp.Domain;
-using CinemaApp.Shared.DTOs;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+<pre class="rouge highlight"><code data-lang="csharp"><span class="k">using</span> <span class="nn">AutoMapper</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">CinemaApp.Data</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">CinemaApp.Domain</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">CinemaApp.Shared.DTOs</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">Microsoft.AspNetCore.Mvc</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">Microsoft.EntityFrameworkCore</span><span class="p">;</span>
 
-namespace CinemaApp.API.Controllers
-{
-    [Route("api/[controller]")]
-    [ApiController]
-    public class MoviesController : ControllerBase
-    {
-        private readonly CinemaDbContext _context;
-        private readonly IMapper _mapper;
+<span class="k">namespace</span> <span class="nn">CinemaApp.API.Controllers</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="nf">Route</span><span class="p">(</span><span class="s">"api/[controller]"</span><span class="p">)]</span>
+    <span class="p">[</span><span class="n">ApiController</span><span class="p">]</span>
+    <span class="k">public</span> <span class="k">class</span> <span class="nc">MoviesController</span> <span class="p">:</span> <span class="n">ControllerBase</span>
+    <span class="p">{</span>
+        <span class="k">private</span> <span class="k">readonly</span> <span class="n">CinemaDbContext</span> <span class="n">_context</span><span class="p">;</span>
+        <span class="k">private</span> <span class="k">readonly</span> <span class="n">IMapper</span> <span class="n">_mapper</span><span class="p">;</span>
 
-        // Dependency Injection: Requesting the DB and the Mapper
-        public MoviesController(CinemaDbContext context, IMapper mapper)
-        {
-            _context = context;
-            _mapper = mapper;
-        }
+        <span class="c1">// Dependency Injection: Requesting the DB and the Mapper</span>
+        <span class="k">public</span> <span class="nf">MoviesController</span><span class="p">(</span><span class="n">CinemaDbContext</span> <span class="n">context</span><span class="p">,</span> <span class="n">IMapper</span> <span class="n">mapper</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">_context</span> <span class="p">=</span> <span class="n">context</span><span class="p">;</span>
+            <span class="n">_mapper</span> <span class="p">=</span> <span class="n">mapper</span><span class="p">;</span>
+        <span class="p">}</span>
 
-        // GET: api/movies
-        [HttpGet]
-        public async Task&lt;ActionResult&lt;List&lt;MovieDto&gt;&gt;&gt; GetMovies()
-        {
-            // 1. Fetch from DB (Entities)
-            // We use .Include() to fetch the related Showtimes
-            var movies = await _context.Movies
-                                       .Include(m =&gt; m.Showtimes)
-                                       .ToListAsync();
+        <span class="c1">// GET: api/movies</span>
+        <span class="p">[</span><span class="n">HttpGet</span><span class="p">]</span>
+        <span class="k">public</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">ActionResult</span><span class="p">&lt;</span><span class="n">List</span><span class="p">&lt;</span><span class="n">MovieDto</span><span class="p">&gt;&gt;&gt;</span> <span class="nf">GetMovies</span><span class="p">()</span>
+        <span class="p">{</span>
+            <span class="c1">// 1. Fetch from DB (Entities)</span>
+            <span class="c1">// We use .Include() to fetch the related Showtimes</span>
+            <span class="kt">var</span> <span class="n">movies</span> <span class="p">=</span> <span class="k">await</span> <span class="n">_context</span><span class="p">.</span><span class="n">Movies</span>
+                                       <span class="p">.</span><span class="nf">Include</span><span class="p">(</span><span class="n">m</span> <span class="p">=&gt;</span> <span class="n">m</span><span class="p">.</span><span class="n">Showtimes</span><span class="p">)</span>
+                                       <span class="p">.</span><span class="nf">ToListAsync</span><span class="p">();</span>
 
-            // 2. Convert to DTOs using AutoMapper
-            var movieDtos = _mapper.Map&lt;List&lt;MovieDto&gt;&gt;(movies);
+            <span class="c1">// 2. Convert to DTOs using AutoMapper</span>
+            <span class="kt">var</span> <span class="n">movieDtos</span> <span class="p">=</span> <span class="n">_mapper</span><span class="p">.</span><span class="n">Map</span><span class="p">&lt;</span><span class="n">List</span><span class="p">&lt;</span><span class="n">MovieDto</span><span class="p">&gt;&gt;(</span><span class="n">movies</span><span class="p">);</span>
 
-            // 3. Return JSON
-            return Ok(movieDtos);
-        }
+            <span class="c1">// 3. Return JSON</span>
+            <span class="k">return</span> <span class="nf">Ok</span><span class="p">(</span><span class="n">movieDtos</span><span class="p">);</span>
+        <span class="p">}</span>
 
-        // GET: api/movies/5
-        [HttpGet("{id}")]
-        public async Task&lt;ActionResult&lt;MovieDto&gt;&gt; GetMovie(int id)
-        {
-            var movie = await _context.Movies
-                                      .Include(m =&gt; m.Showtimes)
-                                      .FirstOrDefaultAsync(m =&gt; m.Id == id);
+        <span class="c1">// GET: api/movies/5</span>
+        <span class="p">[</span><span class="nf">HttpGet</span><span class="p">(</span><span class="s">"{id}"</span><span class="p">)]</span>
+        <span class="k">public</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">ActionResult</span><span class="p">&lt;</span><span class="n">MovieDto</span><span class="p">&gt;&gt;</span> <span class="nf">GetMovie</span><span class="p">(</span><span class="kt">int</span> <span class="n">id</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">var</span> <span class="n">movie</span> <span class="p">=</span> <span class="k">await</span> <span class="n">_context</span><span class="p">.</span><span class="n">Movies</span>
+                                      <span class="p">.</span><span class="nf">Include</span><span class="p">(</span><span class="n">m</span> <span class="p">=&gt;</span> <span class="n">m</span><span class="p">.</span><span class="n">Showtimes</span><span class="p">)</span>
+                                      <span class="p">.</span><span class="nf">FirstOrDefaultAsync</span><span class="p">(</span><span class="n">m</span> <span class="p">=&gt;</span> <span class="n">m</span><span class="p">.</span><span class="n">Id</span> <span class="p">==</span> <span class="n">id</span><span class="p">);</span>
 
-            if (movie == null)
-            {
-                return NotFound();
-            }
+            <span class="k">if</span> <span class="p">(</span><span class="n">movie</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">return</span> <span class="nf">NotFound</span><span class="p">();</span>
+            <span class="p">}</span>
 
-            var movieDto = _mapper.Map&lt;MovieDto&gt;(movie);
+            <span class="kt">var</span> <span class="n">movieDto</span> <span class="p">=</span> <span class="n">_mapper</span><span class="p">.</span><span class="n">Map</span><span class="p">&lt;</span><span class="n">MovieDto</span><span class="p">&gt;(</span><span class="n">movie</span><span class="p">);</span>
 
-            return Ok(movieDto);
-        }
-    }
-}</code></pre>
+            <span class="k">return</span> <span class="nf">Ok</span><span class="p">(</span><span class="n">movieDto</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -717,14 +835,14 @@ namespace CinemaApp.API.Controllers
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-csharp" data-lang="csharp">builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();</code></pre>
+<pre class="rouge highlight"><code data-lang="csharp"><span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="nf">AddEndpointsApiExplorer</span><span class="p">();</span>
+<span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="nf">AddSwaggerGen</span><span class="p">();</span></code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-csharp" data-lang="csharp">app.UseSwagger();
-app.UseSwaggerUI();</code></pre>
+<pre class="rouge highlight"><code data-lang="csharp"><span class="n">app</span><span class="p">.</span><span class="nf">UseSwagger</span><span class="p">();</span>
+<span class="n">app</span><span class="p">.</span><span class="nf">UseSwaggerUI</span><span class="p">();</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -735,16 +853,16 @@ app.UseSwaggerUI();</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-json" data-lang="json">"CinemaApp.API": {
-  "commandName": "Project",
-  "dotnetRunMessages": true,
-  "launchBrowser": true,
-  "launchUrl": "swagger",
-  "applicationUrl": "https://localhost:7153;http://localhost:5153",
-  "environmentVariables": {
-    "ASPNETCORE_ENVIRONMENT": "Development"
-  }
-}</code></pre>
+<pre class="rouge highlight"><code data-lang="json"><span class="nl">"CinemaApp.API"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"commandName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Project"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"dotnetRunMessages"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"launchBrowser"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"launchUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"swagger"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"applicationUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://localhost:7153;http://localhost:5153"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"environmentVariables"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"ASPNETCORE_ENVIRONMENT"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Development"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -756,7 +874,7 @@ app.UseSwaggerUI();</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-12-02 19:07:31 +0100
+Last updated 2025-12-19 14:13:00 +0100
 </div>
 </div>
 </body>

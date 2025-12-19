@@ -1,3 +1,6 @@
+:source-highlighter: rouge
+:rouge-style: github
+
 == 5 Identity
 
 === 5.1 Installing Packages and Updating Context
@@ -292,8 +295,6 @@ namespace CinemaApp.API.Controllers
 }
 ....
 
------
-
 === 5.5 Testing Auth with Swagger
 
 Before we secure the API, we need to make sure we can actually create users and generate keys (Tokens).
@@ -385,7 +386,7 @@ Let's build a simple **Admin Page** in Blazor. This page will handle two things:
 *2. The Code*
 
 *File: `Admin.razor`*
-[source,csharp]
+[source,razor]
 ....
 @page "/admin"
 @using CinemaApp.Shared
@@ -511,8 +512,6 @@ Add this block inside the `<nav>` section (usually at the bottom of the list):
 </div>
 ....
 
------
-
 **Step 2: Update the Admin Page (With Showtimes)**
 
 We need to upgrade `Admin.razor`. We will add a "Mini Form" inside the main form.
@@ -523,7 +522,7 @@ We need to upgrade `Admin.razor`. We will add a "Mini Form" inside the main form
 
 **Replace the entire content of `Admin.razor` with the following:**
 
-[source,csharp]
+[source,razor]
 ....
 @page "/admin"
 @using CinemaApp.Shared

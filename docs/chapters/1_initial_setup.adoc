@@ -1,3 +1,6 @@
+:source-highlighter: rouge
+:rouge-style: github
+
 == 1 Initial Setup
 In this chapter, we create the base solution containing all projects needed for this tutorial.
 

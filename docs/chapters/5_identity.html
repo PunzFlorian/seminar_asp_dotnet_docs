@@ -433,6 +433,124 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<style>
+pre.rouge table td { padding: 5px; }
+pre.rouge table pre { margin: 0; }
+pre.rouge, pre.rouge .w {
+  color: #24292f;
+  background-color: #f6f8fa;
+}
+pre.rouge .k, pre.rouge .kd, pre.rouge .kn, pre.rouge .kp, pre.rouge .kr, pre.rouge .kt, pre.rouge .kv {
+  color: #cf222e;
+}
+pre.rouge .gr {
+  color: #f6f8fa;
+}
+pre.rouge .gd {
+  color: #82071e;
+  background-color: #ffebe9;
+}
+pre.rouge .nb {
+  color: #953800;
+}
+pre.rouge .nc {
+  color: #953800;
+}
+pre.rouge .no {
+  color: #953800;
+}
+pre.rouge .nn {
+  color: #953800;
+}
+pre.rouge .sr {
+  color: #116329;
+}
+pre.rouge .na {
+  color: #116329;
+}
+pre.rouge .nt {
+  color: #116329;
+}
+pre.rouge .gi {
+  color: #116329;
+  background-color: #dafbe1;
+}
+pre.rouge .ges {
+  font-weight: bold;
+  font-style: italic;
+}
+pre.rouge .kc {
+  color: #0550ae;
+}
+pre.rouge .l, pre.rouge .ld, pre.rouge .m, pre.rouge .mb, pre.rouge .mf, pre.rouge .mh, pre.rouge .mi, pre.rouge .il, pre.rouge .mo, pre.rouge .mx {
+  color: #0550ae;
+}
+pre.rouge .sb {
+  color: #0550ae;
+}
+pre.rouge .bp {
+  color: #0550ae;
+}
+pre.rouge .ne {
+  color: #0550ae;
+}
+pre.rouge .nl {
+  color: #0550ae;
+}
+pre.rouge .py {
+  color: #0550ae;
+}
+pre.rouge .nv, pre.rouge .vc, pre.rouge .vg, pre.rouge .vi, pre.rouge .vm {
+  color: #0550ae;
+}
+pre.rouge .o, pre.rouge .ow {
+  color: #0550ae;
+}
+pre.rouge .gh {
+  color: #0550ae;
+  font-weight: bold;
+}
+pre.rouge .gu {
+  color: #0550ae;
+  font-weight: bold;
+}
+pre.rouge .s, pre.rouge .sa, pre.rouge .sc, pre.rouge .dl, pre.rouge .sd, pre.rouge .s2, pre.rouge .se, pre.rouge .sh, pre.rouge .sx, pre.rouge .s1, pre.rouge .ss {
+  color: #0a3069;
+}
+pre.rouge .nd {
+  color: #8250df;
+}
+pre.rouge .nf, pre.rouge .fm {
+  color: #8250df;
+}
+pre.rouge .err {
+  color: #f6f8fa;
+  background-color: #82071e;
+}
+pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cm, pre.rouge .cp, pre.rouge .cpf, pre.rouge .c1, pre.rouge .cs {
+  color: #6e7781;
+}
+pre.rouge .gl {
+  color: #6e7781;
+}
+pre.rouge .gt {
+  color: #6e7781;
+}
+pre.rouge .ni {
+  color: #24292f;
+}
+pre.rouge .si {
+  color: #24292f;
+}
+pre.rouge .ge {
+  color: #24292f;
+  font-style: italic;
+}
+pre.rouge .gs {
+  color: #24292f;
+  font-weight: bold;
+}
+</style>
 </head>
 <body class="article">
 <div id="header">
@@ -466,19 +584,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-csharp" data-lang="csharp">using CinemaApp.Domain;
-using Microsoft.AspNetCore.Identity; // Needed for IdentityUser
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore; // Needed for IdentityDbContext
-using Microsoft.EntityFrameworkCore;
+<pre class="rouge highlight"><code data-lang="csharp"><span class="k">using</span> <span class="nn">CinemaApp.Domain</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">Microsoft.AspNetCore.Identity</span><span class="p">;</span> <span class="c1">// Needed for IdentityUser</span>
+<span class="k">using</span> <span class="nn">Microsoft.AspNetCore.Identity.EntityFrameworkCore</span><span class="p">;</span> <span class="c1">// Needed for IdentityDbContext</span>
+<span class="k">using</span> <span class="nn">Microsoft.EntityFrameworkCore</span><span class="p">;</span>
 
-namespace CinemaApp.Data
-{
-    // Change: Inherit from IdentityDbContext, not just DbContext
-    public class CinemaDbContext : IdentityDbContext&lt;IdentityUser&gt;
-    {
-        ...
-    }
-}</code></pre>
+<span class="k">namespace</span> <span class="nn">CinemaApp.Data</span>
+<span class="p">{</span>
+    <span class="c1">// Change: Inherit from IdentityDbContext, not just DbContext</span>
+    <span class="k">public</span> <span class="k">class</span> <span class="nc">CinemaDbContext</span> <span class="p">:</span> <span class="n">IdentityDbContext</span><span class="p">&lt;</span><span class="n">IdentityUser</span><span class="p">&gt;</span>
+    <span class="p">{</span>
+        <span class="p">...</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre>
 </div>
 </div>
 </div>
@@ -503,7 +621,7 @@ Run this command to create the instructions for the new tables:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">dotnet ef migrations add AddIdentity --project CinemaApp.Data --startup-project CinemaApp.API</code></pre>
+<pre class="rouge highlight"><code data-lang="bash">dotnet ef migrations add AddIdentity <span class="nt">--project</span> CinemaApp.Data <span class="nt">--startup-project</span> CinemaApp.API</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -512,7 +630,7 @@ Run this command to actually create the tables in your SQL database:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">dotnet ef database update --project CinemaApp.Data --startup-project CinemaApp.API</code></pre>
+<pre class="rouge highlight"><code data-lang="bash">dotnet ef database update <span class="nt">--project</span> CinemaApp.Data <span class="nt">--startup-project</span> CinemaApp.API</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -555,15 +673,15 @@ If you see <strong><code>Done.</code></strong>, the tables are created.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-json" data-lang="json">{
-  "ConnectionStrings": { ... },
-  "Jwt": {
-    "Key": "ThisIsMySuperSecretKeyForCinemaApp2024!",
-    "Issuer": "https://localhost:7153",
-    "Audience": "https://localhost:7153"
-  },
-  "Logging": { ... }
-}</code></pre>
+<pre class="rouge highlight"><code data-lang="json"><span class="p">{</span><span class="w">
+  </span><span class="nl">"ConnectionStrings"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"Jwt"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"Key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ThisIsMySuperSecretKeyForCinemaApp2024!"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"Issuer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://localhost:7153"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"Audience"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://localhost:7153"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"Logging"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -587,39 +705,39 @@ If you see <strong><code>Done.</code></strong>, the tables are created.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-csharp" data-lang="csharp">using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+<pre class="rouge highlight"><code data-lang="csharp"><span class="k">using</span> <span class="nn">Microsoft.AspNetCore.Identity</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">Microsoft.AspNetCore.Authentication.JwtBearer</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">Microsoft.IdentityModel.Tokens</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Text</span><span class="p">;</span>
 
-// ... existing code ...
+<span class="c1">// ... existing code ...</span>
 
-// 1. Register Identity (Users &amp; Roles)
-builder.Services.AddIdentity&lt;IdentityUser, IdentityRole&gt;()
-    .AddEntityFrameworkStores&lt;CinemaDbContext&gt;()
-    .AddDefaultTokenProviders();
+<span class="c1">// 1. Register Identity (Users &amp; Roles)</span>
+<span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddIdentity</span><span class="p">&lt;</span><span class="n">IdentityUser</span><span class="p">,</span> <span class="n">IdentityRole</span><span class="p">&gt;()</span>
+    <span class="p">.</span><span class="n">AddEntityFrameworkStores</span><span class="p">&lt;</span><span class="n">CinemaDbContext</span><span class="p">&gt;()</span>
+    <span class="p">.</span><span class="nf">AddDefaultTokenProviders</span><span class="p">();</span>
 
-// 2. Register Authentication (JWT)
-var jwtSettings = builder.Configuration.GetSection("Jwt");
-var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]!);
+<span class="c1">// 2. Register Authentication (JWT)</span>
+<span class="kt">var</span> <span class="n">jwtSettings</span> <span class="p">=</span> <span class="n">builder</span><span class="p">.</span><span class="n">Configuration</span><span class="p">.</span><span class="nf">GetSection</span><span class="p">(</span><span class="s">"Jwt"</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">key</span> <span class="p">=</span> <span class="n">Encoding</span><span class="p">.</span><span class="n">ASCII</span><span class="p">.</span><span class="nf">GetBytes</span><span class="p">(</span><span class="n">jwtSettings</span><span class="p">[</span><span class="s">"Key"</span><span class="p">]!);</span>
 
-builder.Services.AddAuthentication(options =&gt;
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =&gt;
-{
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = jwtSettings["Issuer"],
-        ValidAudience = jwtSettings["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(key)
-    };
-});</code></pre>
+<span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="nf">AddAuthentication</span><span class="p">(</span><span class="n">options</span> <span class="p">=&gt;</span>
+<span class="p">{</span>
+    <span class="n">options</span><span class="p">.</span><span class="n">DefaultAuthenticateScheme</span> <span class="p">=</span> <span class="n">JwtBearerDefaults</span><span class="p">.</span><span class="n">AuthenticationScheme</span><span class="p">;</span>
+    <span class="n">options</span><span class="p">.</span><span class="n">DefaultChallengeScheme</span> <span class="p">=</span> <span class="n">JwtBearerDefaults</span><span class="p">.</span><span class="n">AuthenticationScheme</span><span class="p">;</span>
+<span class="p">}).</span><span class="nf">AddJwtBearer</span><span class="p">(</span><span class="n">options</span> <span class="p">=&gt;</span>
+<span class="p">{</span>
+    <span class="n">options</span><span class="p">.</span><span class="n">TokenValidationParameters</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TokenValidationParameters</span>
+    <span class="p">{</span>
+        <span class="n">ValidateIssuer</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span>
+        <span class="n">ValidateAudience</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span>
+        <span class="n">ValidateLifetime</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span>
+        <span class="n">ValidateIssuerSigningKey</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span>
+        <span class="n">ValidIssuer</span> <span class="p">=</span> <span class="n">jwtSettings</span><span class="p">[</span><span class="s">"Issuer"</span><span class="p">],</span>
+        <span class="n">ValidAudience</span> <span class="p">=</span> <span class="n">jwtSettings</span><span class="p">[</span><span class="s">"Audience"</span><span class="p">],</span>
+        <span class="n">IssuerSigningKey</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">SymmetricSecurityKey</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="p">};</span>
+<span class="p">});</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -630,13 +748,13 @@ builder.Services.AddAuthentication(options =&gt;
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-csharp" data-lang="csharp">app.UseCors("AllowAll"); // We added this earlier
+<pre class="rouge highlight"><code data-lang="csharp"><span class="n">app</span><span class="p">.</span><span class="nf">UseCors</span><span class="p">(</span><span class="s">"AllowAll"</span><span class="p">);</span> <span class="c1">// We added this earlier</span>
 
-// CRITICAL: Order matters! Auth must come before Authorization.
-app.UseAuthentication();
-app.UseAuthorization();
+<span class="c1">// CRITICAL: Order matters! Auth must come before Authorization.</span>
+<span class="n">app</span><span class="p">.</span><span class="nf">UseAuthentication</span><span class="p">();</span>
+<span class="n">app</span><span class="p">.</span><span class="nf">UseAuthorization</span><span class="p">();</span>
 
-app.MapControllers();</code></pre>
+<span class="n">app</span><span class="p">.</span><span class="nf">MapControllers</span><span class="p">();</span></code></pre>
 </div>
 </div>
 </div>
@@ -667,19 +785,19 @@ The Client needs to send login data, so these DTOs must be in the <strong>Shared
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-csharp" data-lang="csharp">using System.ComponentModel.DataAnnotations;
+<pre class="rouge highlight"><code data-lang="csharp"><span class="k">using</span> <span class="nn">System.ComponentModel.DataAnnotations</span><span class="p">;</span>
 
-namespace CinemaApp.Shared
-{
-    public class UserRegisterDto
-    {
-        [Required, EmailAddress]
-        public string Email { get; set; } = string.Empty;
+<span class="k">namespace</span> <span class="nn">CinemaApp.Shared</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">class</span> <span class="nc">UserRegisterDto</span>
+    <span class="p">{</span>
+        <span class="p">[</span><span class="n">Required</span><span class="p">,</span> <span class="n">EmailAddress</span><span class="p">]</span>
+        <span class="k">public</span> <span class="kt">string</span> <span class="n">Email</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span><span class="p">;</span>
 
-        [Required, MinLength(6)]
-        public string Password { get; set; } = string.Empty;
-    }
-}</code></pre>
+        <span class="p">[</span><span class="n">Required</span><span class="p">,</span> <span class="nf">MinLength</span><span class="p">(</span><span class="m">6</span><span class="p">)]</span>
+        <span class="k">public</span> <span class="kt">string</span> <span class="n">Password</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -687,19 +805,19 @@ namespace CinemaApp.Shared
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-csharp" data-lang="csharp">using System.ComponentModel.DataAnnotations;
+<pre class="rouge highlight"><code data-lang="csharp"><span class="k">using</span> <span class="nn">System.ComponentModel.DataAnnotations</span><span class="p">;</span>
 
-namespace CinemaApp.Shared
-{
-    public class UserLoginDto
-    {
-        [Required]
-        public string Email { get; set; } = string.Empty;
+<span class="k">namespace</span> <span class="nn">CinemaApp.Shared</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">class</span> <span class="nc">UserLoginDto</span>
+    <span class="p">{</span>
+        <span class="p">[</span><span class="n">Required</span><span class="p">]</span>
+        <span class="k">public</span> <span class="kt">string</span> <span class="n">Email</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span><span class="p">;</span>
 
-        [Required]
-        public string Password { get; set; } = string.Empty;
-    }
-}</code></pre>
+        <span class="p">[</span><span class="n">Required</span><span class="p">]</span>
+        <span class="k">public</span> <span class="kt">string</span> <span class="n">Password</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -724,311 +842,407 @@ This code takes care of the critical tasks: registering new users and generating
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-csharp" data-lang="csharp">using CinemaApp.Shared;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+<pre class="rouge highlight"><code data-lang="csharp"><span class="k">using</span> <span class="nn">CinemaApp.Shared</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">Microsoft.AspNetCore.Identity</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">Microsoft.AspNetCore.Mvc</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">Microsoft.IdentityModel.Tokens</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.IdentityModel.Tokens.Jwt</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Security.Claims</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Text</span><span class="p">;</span>
 
-namespace CinemaApp.API.Controllers
-{
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AuthController : ControllerBase
-    {
-        private readonly UserManager&lt;IdentityUser&gt; _userManager;
-        private readonly IConfiguration _configuration;
+<span class="k">namespace</span> <span class="nn">CinemaApp.API.Controllers</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="nf">Route</span><span class="p">(</span><span class="s">"api/[controller]"</span><span class="p">)]</span>
+    <span class="p">[</span><span class="n">ApiController</span><span class="p">]</span>
+    <span class="k">public</span> <span class="k">class</span> <span class="nc">AuthController</span> <span class="p">:</span> <span class="n">ControllerBase</span>
+    <span class="p">{</span>
+        <span class="k">private</span> <span class="k">readonly</span> <span class="n">UserManager</span><span class="p">&lt;</span><span class="n">IdentityUser</span><span class="p">&gt;</span> <span class="n">_userManager</span><span class="p">;</span>
+        <span class="k">private</span> <span class="k">readonly</span> <span class="n">IConfiguration</span> <span class="n">_configuration</span><span class="p">;</span>
 
-        public AuthController(UserManager&lt;IdentityUser&gt; userManager, IConfiguration configuration)
-        {
-            _userManager = userManager;
-            _configuration = configuration;
-        }
+        <span class="k">public</span> <span class="nf">AuthController</span><span class="p">(</span><span class="n">UserManager</span><span class="p">&lt;</span><span class="n">IdentityUser</span><span class="p">&gt;</span> <span class="n">userManager</span><span class="p">,</span> <span class="n">IConfiguration</span> <span class="n">configuration</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">_userManager</span> <span class="p">=</span> <span class="n">userManager</span><span class="p">;</span>
+            <span class="n">_configuration</span> <span class="p">=</span> <span class="n">configuration</span><span class="p">;</span>
+        <span class="p">}</span>
 
-        // POST: api/auth/register
-        [HttpPost("register")]
-        public async Task&lt;IActionResult&gt; Register(UserRegisterDto request)
-        {
-            // 1. Create the IdentityUser object
-            var user = new IdentityUser { UserName = request.Email, Email = request.Email };
+        <span class="c1">// POST: api/auth/register</span>
+        <span class="p">[</span><span class="nf">HttpPost</span><span class="p">(</span><span class="s">"register"</span><span class="p">)]</span>
+        <span class="k">public</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">IActionResult</span><span class="p">&gt;</span> <span class="nf">Register</span><span class="p">(</span><span class="n">UserRegisterDto</span> <span class="n">request</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="c1">// 1. Create the IdentityUser object</span>
+            <span class="kt">var</span> <span class="n">user</span> <span class="p">=</span> <span class="k">new</span> <span class="n">IdentityUser</span> <span class="p">{</span> <span class="n">UserName</span> <span class="p">=</span> <span class="n">request</span><span class="p">.</span><span class="n">Email</span><span class="p">,</span> <span class="n">Email</span> <span class="p">=</span> <span class="n">request</span><span class="p">.</span><span class="n">Email</span> <span class="p">};</span>
 
-            // 2. Hash the password and save to DB
-            var result = await _userManager.CreateAsync(user, request.Password);
+            <span class="c1">// 2. Hash the password and save to DB</span>
+            <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="k">await</span> <span class="n">_userManager</span><span class="p">.</span><span class="nf">CreateAsync</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">request</span><span class="p">.</span><span class="n">Password</span><span class="p">);</span>
 
-            if (result.Succeeded)
-            {
-                return Ok(new { message = "Registration successful" });
-            }
+            <span class="k">if</span> <span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">Succeeded</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">return</span> <span class="nf">Ok</span><span class="p">(</span><span class="k">new</span> <span class="p">{</span> <span class="n">message</span> <span class="p">=</span> <span class="s">"Registration successful"</span> <span class="p">});</span>
+            <span class="p">}</span>
 
-            return BadRequest(result.Errors);
-        }
+            <span class="k">return</span> <span class="nf">BadRequest</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">Errors</span><span class="p">);</span>
+        <span class="p">}</span>
 
-        // POST: api/auth/login
-        [HttpPost("login")]
-        public async Task&lt;IActionResult&gt; Login(UserLoginDto request)
-        {
-            // 1. Check if user exists
-            var user = await _userManager.FindByEmailAsync(request.Email);
-            if (user == null) return BadRequest("User not found.");
+        <span class="c1">// POST: api/auth/login</span>
+        <span class="p">[</span><span class="nf">HttpPost</span><span class="p">(</span><span class="s">"login"</span><span class="p">)]</span>
+        <span class="k">public</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">IActionResult</span><span class="p">&gt;</span> <span class="nf">Login</span><span class="p">(</span><span class="n">UserLoginDto</span> <span class="n">request</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="c1">// 1. Check if user exists</span>
+            <span class="kt">var</span> <span class="n">user</span> <span class="p">=</span> <span class="k">await</span> <span class="n">_userManager</span><span class="p">.</span><span class="nf">FindByEmailAsync</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="n">Email</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">user</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="k">return</span> <span class="nf">BadRequest</span><span class="p">(</span><span class="s">"User not found."</span><span class="p">);</span>
 
-            // 2. Check password
-            var isPasswordValid = await _userManager.CheckPasswordAsync(user, request.Password);
-            if (!isPasswordValid) return BadRequest("Wrong password.");
+            <span class="c1">// 2. Check password</span>
+            <span class="kt">var</span> <span class="n">isPasswordValid</span> <span class="p">=</span> <span class="k">await</span> <span class="n">_userManager</span><span class="p">.</span><span class="nf">CheckPasswordAsync</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">request</span><span class="p">.</span><span class="n">Password</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(!</span><span class="n">isPasswordValid</span><span class="p">)</span> <span class="k">return</span> <span class="nf">BadRequest</span><span class="p">(</span><span class="s">"Wrong password."</span><span class="p">);</span>
 
-            // 3. Generate JWT Token
-            var token = GenerateJwtToken(user);
+            <span class="c1">// 3. Generate JWT Token</span>
+            <span class="kt">var</span> <span class="n">token</span> <span class="p">=</span> <span class="nf">GenerateJwtToken</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
 
-            return Ok(new { Token = token });
-        }
+            <span class="k">return</span> <span class="nf">Ok</span><span class="p">(</span><span class="k">new</span> <span class="p">{</span> <span class="n">Token</span> <span class="p">=</span> <span class="n">token</span> <span class="p">});</span>
+        <span class="p">}</span>
 
-        private string GenerateJwtToken(IdentityUser user)
-        {
-            var jwtSettings = _configuration.GetSection("Jwt");
-            var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]!);
+        <span class="k">private</span> <span class="kt">string</span> <span class="nf">GenerateJwtToken</span><span class="p">(</span><span class="n">IdentityUser</span> <span class="n">user</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">var</span> <span class="n">jwtSettings</span> <span class="p">=</span> <span class="n">_configuration</span><span class="p">.</span><span class="nf">GetSection</span><span class="p">(</span><span class="s">"Jwt"</span><span class="p">);</span>
+            <span class="kt">var</span> <span class="n">key</span> <span class="p">=</span> <span class="n">Encoding</span><span class="p">.</span><span class="n">ASCII</span><span class="p">.</span><span class="nf">GetBytes</span><span class="p">(</span><span class="n">jwtSettings</span><span class="p">[</span><span class="s">"Key"</span><span class="p">]!);</span>
 
-            var claims = new List&lt;Claim&gt;
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim(ClaimTypes.Name, user.UserName!)
-            };
+            <span class="kt">var</span> <span class="n">claims</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Claim</span><span class="p">&gt;</span>
+            <span class="p">{</span>
+                <span class="k">new</span> <span class="nf">Claim</span><span class="p">(</span><span class="n">ClaimTypes</span><span class="p">.</span><span class="n">NameIdentifier</span><span class="p">,</span> <span class="n">user</span><span class="p">.</span><span class="n">Id</span><span class="p">),</span>
+                <span class="k">new</span> <span class="nf">Claim</span><span class="p">(</span><span class="n">ClaimTypes</span><span class="p">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">user</span><span class="p">.</span><span class="n">UserName</span><span class="p">!)</span>
+            <span class="p">};</span>
 
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddDays(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-                Issuer = jwtSettings["Issuer"],
-                Audience = jwtSettings["Audience"]
-            };
+            <span class="kt">var</span> <span class="n">tokenDescriptor</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SecurityTokenDescriptor</span>
+            <span class="p">{</span>
+                <span class="n">Subject</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">ClaimsIdentity</span><span class="p">(</span><span class="n">claims</span><span class="p">),</span>
+                <span class="n">Expires</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">UtcNow</span><span class="p">.</span><span class="nf">AddDays</span><span class="p">(</span><span class="m">1</span><span class="p">),</span>
+                <span class="n">SigningCredentials</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">SigningCredentials</span><span class="p">(</span><span class="k">new</span> <span class="nf">SymmetricSecurityKey</span><span class="p">(</span><span class="n">key</span><span class="p">),</span> <span class="n">SecurityAlgorithms</span><span class="p">.</span><span class="n">HmacSha256Signature</span><span class="p">),</span>
+                <span class="n">Issuer</span> <span class="p">=</span> <span class="n">jwtSettings</span><span class="p">[</span><span class="s">"Issuer"</span><span class="p">],</span>
+                <span class="n">Audience</span> <span class="p">=</span> <span class="n">jwtSettings</span><span class="p">[</span><span class="s">"Audience"</span><span class="p">]</span>
+            <span class="p">};</span>
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
-        }
-    }
-}</code></pre>
+            <span class="kt">var</span> <span class="n">tokenHandler</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">JwtSecurityTokenHandler</span><span class="p">();</span>
+            <span class="kt">var</span> <span class="n">token</span> <span class="p">=</span> <span class="n">tokenHandler</span><span class="p">.</span><span class="nf">CreateToken</span><span class="p">(</span><span class="n">tokenDescriptor</span><span class="p">);</span>
+            <span class="k">return</span> <span class="n">tokenHandler</span><span class="p">.</span><span class="nf">WriteToken</span><span class="p">(</span><span class="n">token</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_5_5_testing_auth_with_swagger">5.5 Testing Auth with Swagger</h3>
+<div class="paragraph">
+<p>Before we secure the API, we need to make sure we can actually create users and generate keys (Tokens).</p>
+</div>
+<div class="paragraph">
+<p><strong>1. Run the App</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Press <strong>F5</strong> to start the project.</p>
+</li>
+<li>
+<p>Go to the API Swagger page (e.g., <code><a href="https://localhost:7153/swagger" class="bare">https://localhost:7153/swagger</a></code>).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>2. Register a User</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Expand <strong><code>POST /api/Auth/register</code></strong>.</p>
+</li>
+<li>
+<p>Click <strong>Try it out</strong>.</p>
+</li>
+<li>
+<p>In the Request Body, paste this JSON (Identity requires a strong password by default: Uppercase, Lowercase, Number, Symbol):</p>
+</li>
+</ul>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>{
+  "email": "admin@cinema.com",
+  "password": "Password123!"
+}</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Click <strong>Execute</strong>.</p>
+</li>
+<li>
+<p><strong>Success:</strong> You should see Code 200 and <code>{"message":"Registration successful"}</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>3. Login</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Expand <strong><code>POST /api/Auth/login</code></strong>.</p>
+</li>
+<li>
+<p>Click <strong>Try it out</strong>.</p>
+</li>
+<li>
+<p>Paste the same JSON credentials.</p>
+</li>
+<li>
+<p>Click <strong>Execute</strong>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>4. The Result</strong>
+Look at the <strong>Response body</strong>. You will see a long string of random characters. <strong>This is your JWT (Access Token).</strong></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>=== 5.5 Testing Auth with Swagger
+<pre class="rouge highlight"><code data-lang="json"><span class="p">{</span><span class="w">
+  </span><span class="nl">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc..."</span><span class="w">
+</span><span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>5. Securing the Endpoints</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>1. Protect the Controller (<code>MoviesController.cs</code>)</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Open <code>MoviesController.cs</code> in <strong><code>CinemaApp.API</code></strong>.</p>
+</li>
+<li>
+<p>Add <code>using Microsoft.AspNetCore.Authorization;</code> at the top.</p>
+</li>
+<li>
+<p>Add this <strong>POST</strong> endpoint inside the class. Notice the <code>[Authorize]</code> attribute.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>File: <code>MoviesController.cs</code></strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="csharp"><span class="c1">// POST: api/movies</span>
+<span class="p">[</span><span class="n">HttpPost</span><span class="p">]</span>
+<span class="p">[</span><span class="n">Authorize</span><span class="p">]</span> <span class="c1">// &lt;--- This locks the door!</span>
+<span class="k">public</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">ActionResult</span><span class="p">&lt;</span><span class="n">MovieDto</span><span class="p">&gt;&gt;</span> <span class="nf">CreateMovie</span><span class="p">(</span><span class="n">MovieDto</span> <span class="n">movieDto</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// 1. Map DTO -&gt; Domain Entity</span>
+    <span class="kt">var</span> <span class="n">movie</span> <span class="p">=</span> <span class="n">_mapper</span><span class="p">.</span><span class="n">Map</span><span class="p">&lt;</span><span class="n">Movie</span><span class="p">&gt;(</span><span class="n">movieDto</span><span class="p">);</span>
 
-Before we secure the API, we need to make sure we can actually create users and generate keys (Tokens).
+    <span class="c1">// 2. Add to DB</span>
+    <span class="n">_context</span><span class="p">.</span><span class="n">Movies</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="n">movie</span><span class="p">);</span>
+    <span class="k">await</span> <span class="n">_context</span><span class="p">.</span><span class="nf">SaveChangesAsync</span><span class="p">();</span>
 
-*1. Run the App*
+    <span class="c1">// 3. Map back to DTO for response</span>
+    <span class="kt">var</span> <span class="n">returnDto</span> <span class="p">=</span> <span class="n">_mapper</span><span class="p">.</span><span class="n">Map</span><span class="p">&lt;</span><span class="n">MovieDto</span><span class="p">&gt;(</span><span class="n">movie</span><span class="p">);</span>
 
-* Press **F5** to start the project.
-* Go to the API Swagger page (e.g., `https://localhost:7153/swagger`).
+    <span class="k">return</span> <span class="nf">CreatedAtAction</span><span class="p">(</span><span class="k">nameof</span><span class="p">(</span><span class="n">GetMovie</span><span class="p">),</span> <span class="k">new</span> <span class="p">{</span> <span class="n">id</span> <span class="p">=</span> <span class="n">returnDto</span><span class="p">.</span><span class="n">Id</span> <span class="p">},</span> <span class="n">returnDto</span><span class="p">);</span>
+<span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>2. Test the Security</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Run the app (<strong>F5</strong>).</p>
+</li>
+<li>
+<p><strong>Test:</strong> Try to use <code>POST /api/movies</code> <strong>without</strong> doing anything else. You should get <strong>401 Unauthorized</strong>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_5_6_add_admin_page">5.6 Add Admin Page</h3>
+<div class="paragraph">
+<p>Let&#8217;s build a simple <strong>Admin Page</strong> in Blazor. This page will handle two things:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>Login:</strong> To get the Token.</p>
+</li>
+<li>
+<p><strong>Create Movie:</strong> To send the data <strong>with</strong> the Token attached.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>1. Create the Admin Page</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In <strong><code>CinemaApp.Client</code></strong>, right-click <strong><code>Pages</code></strong> &#8594; <strong>Add</strong> &#8594; <strong>Razor Component</strong>.</p>
+</li>
+<li>
+<p>Name it: <code>Admin.razor</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>2. The Code</strong></p>
+</div>
+<div class="paragraph">
+<p><strong>File: <code>Admin.razor</code></strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="csharp"><span class="n">@page</span> <span class="s">"/admin"</span>
+<span class="n">@using</span> <span class="n">CinemaApp</span><span class="p">.</span><span class="n">Shared</span>
+<span class="n">@using</span> <span class="n">System</span><span class="p">.</span><span class="n">Net</span><span class="p">.</span><span class="n">Http</span><span class="p">.</span><span class="n">Headers</span>
+<span class="n">@using</span> <span class="n">System</span><span class="p">.</span><span class="n">Text</span><span class="p">.</span><span class="n">Json</span>
+<span class="n">@inject</span> <span class="n">HttpClient</span> <span class="n">Http</span>
 
-*2. Register a User*
+<span class="p">&lt;</span><span class="n">PageTitle</span><span class="p">&gt;</span><span class="n">Admin</span> <span class="n">Dashboard</span><span class="p">&lt;/</span><span class="n">PageTitle</span><span class="p">&gt;</span>
 
-* Expand **`POST /api/Auth/register`**.
-* Click **Try it out**.
-* In the Request Body, paste this JSON (Identity requires a strong password by default: Uppercase, Lowercase, Number, Symbol):
-[source,json]
-....
-{
-  "email": "admin@cinema.com",
-  "password": "Password123!"
-}
-....
-* Click **Execute**.
-* **Success:** You should see Code 200 and `{"message":"Registration successful"}`.
+<span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">container</span> <span class="n">mt</span><span class="p">-</span><span class="m">4</span><span class="s">"&gt;
+</span>    <span class="p">&lt;</span><span class="n">h1</span><span class="p">&gt;</span><span class="n">Admin</span> <span class="n">Dashboard</span><span class="p">&lt;/</span><span class="n">h1</span><span class="p">&gt;</span>
 
-*3. Login*
+    <span class="nf">@if</span> <span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="nf">IsNullOrEmpty</span><span class="p">(</span><span class="n">jwtToken</span><span class="p">))</span>
+    <span class="p">{</span>
+        <span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">card</span> <span class="n">p</span><span class="p">-</span><span class="m">4</span><span class="s">" style="</span><span class="n">max</span><span class="p">-</span><span class="n">width</span><span class="p">:</span> <span class="m">400</span><span class="n">px</span><span class="p">;</span><span class="s">"&gt;
+</span>            <span class="p">&lt;</span><span class="n">h3</span><span class="p">&gt;</span><span class="n">Login</span><span class="p">&lt;/</span><span class="n">h3</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">mb</span><span class="p">-</span><span class="m">3</span><span class="s">"&gt;
+</span>                <span class="p">&lt;</span><span class="n">label</span><span class="p">&gt;</span><span class="n">Email</span><span class="p">&lt;/</span><span class="n">label</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="n">input</span> <span class="n">@bind</span><span class="p">=</span><span class="s">"loginModel.Email"</span> <span class="k">class</span><span class="err">="</span><span class="nc">form</span><span class="p">-</span><span class="n">control</span><span class="s">" placeholder="</span><span class="n">admin@cinema</span><span class="p">.</span><span class="n">com</span><span class="s">" /&gt;
+</span>            <span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">mb</span><span class="p">-</span><span class="m">3</span><span class="s">"&gt;
+</span>                <span class="p">&lt;</span><span class="n">label</span><span class="p">&gt;</span><span class="n">Password</span><span class="p">&lt;/</span><span class="n">label</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="n">input</span> <span class="n">@bind</span><span class="p">=</span><span class="s">"loginModel.Password"</span> <span class="n">type</span><span class="p">=</span><span class="s">"password"</span> <span class="k">class</span><span class="err">="</span><span class="nc">form</span><span class="p">-</span><span class="n">control</span><span class="s">" placeholder="</span><span class="n">Password123</span><span class="p">!</span><span class="s">" /&gt;
+</span>            <span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="n">button</span> <span class="k">class</span><span class="err">="</span><span class="nc">btn</span> <span class="n">btn</span><span class="p">-</span><span class="n">primary</span><span class="s">" @onclick="</span><span class="n">Login</span><span class="s">"&gt;Login&lt;/button&gt;
+</span>            <span class="p">&lt;</span><span class="n">p</span> <span class="k">class</span><span class="err">="</span><span class="nc">text</span><span class="p">-</span><span class="n">danger</span> <span class="n">mt</span><span class="p">-</span><span class="m">2</span><span class="s">"&gt;@loginMessage&lt;/p&gt;
+</span>        <span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">card</span> <span class="n">p</span><span class="p">-</span><span class="m">4</span><span class="s">"&gt;
+</span>            <span class="p">&lt;</span><span class="n">h3</span><span class="p">&gt;</span><span class="n">Add</span> <span class="n">New</span> <span class="n">Movie</span><span class="p">&lt;/</span><span class="n">h3</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">mb</span><span class="p">-</span><span class="m">3</span><span class="s">"&gt;
+</span>                <span class="p">&lt;</span><span class="n">label</span><span class="p">&gt;</span><span class="n">Title</span><span class="p">&lt;/</span><span class="n">label</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="n">input</span> <span class="n">@bind</span><span class="p">=</span><span class="s">"newMovie.Title"</span> <span class="k">class</span><span class="err">="</span><span class="nc">form</span><span class="p">-</span><span class="n">control</span><span class="s">" /&gt;
+</span>            <span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">mb</span><span class="p">-</span><span class="m">3</span><span class="s">"&gt;
+</span>                <span class="p">&lt;</span><span class="n">label</span><span class="p">&gt;</span><span class="n">Description</span><span class="p">&lt;/</span><span class="n">label</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="n">textarea</span> <span class="n">@bind</span><span class="p">=</span><span class="s">"newMovie.Description"</span> <span class="k">class</span><span class="err">="</span><span class="nc">form</span><span class="p">-</span><span class="n">control</span><span class="s">"&gt;&lt;/textarea&gt;
+</span>            <span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
 
-* Expand **`POST /api/Auth/login`**.
-* Click **Try it out**.
-* Paste the same JSON credentials.
-* Click **Execute**.
+            <span class="p">&lt;</span><span class="n">button</span> <span class="k">class</span><span class="err">="</span><span class="nc">btn</span> <span class="n">btn</span><span class="p">-</span><span class="n">success</span><span class="s">" @onclick="</span><span class="n">CreateMovie</span><span class="s">"&gt;Create Movie&lt;/button&gt;
+</span>            <span class="p">&lt;</span><span class="n">p</span> <span class="k">class</span><span class="err">="</span><span class="nc">mt</span><span class="p">-</span><span class="m">2</span><span class="s">"&gt;@createMessage&lt;/p&gt;
+</span>        <span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
+    <span class="p">}</span>
+<span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
 
-*4. The Result*
-Look at the **Response body**. You will see a long string of random characters. **This is your JWT (Access Token).**
+<span class="n">@code</span> <span class="p">{</span>
+    <span class="c1">// State</span>
+    <span class="k">private</span> <span class="kt">string</span> <span class="n">jwtToken</span> <span class="p">=</span> <span class="s">""</span><span class="p">;</span>
+    <span class="k">private</span> <span class="kt">string</span> <span class="n">loginMessage</span> <span class="p">=</span> <span class="s">""</span><span class="p">;</span>
+    <span class="k">private</span> <span class="kt">string</span> <span class="n">createMessage</span> <span class="p">=</span> <span class="s">""</span><span class="p">;</span>
 
-[source,json]
-....
-{
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc..."
-}
-....
+    <span class="c1">// Models</span>
+    <span class="k">private</span> <span class="n">UserLoginDto</span> <span class="n">loginModel</span> <span class="p">=</span> <span class="k">new</span><span class="p">();</span>
+    <span class="k">private</span> <span class="n">MovieDto</span> <span class="n">newMovie</span> <span class="p">=</span> <span class="k">new</span><span class="p">();</span>
 
-*5. Securing the Endpoints*
+    <span class="k">private</span> <span class="k">async</span> <span class="n">Task</span> <span class="nf">Login</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">Http</span><span class="p">.</span><span class="nf">PostAsJsonAsync</span><span class="p">(</span><span class="s">"api/Auth/login"</span><span class="p">,</span> <span class="n">loginModel</span><span class="p">);</span>
 
-*1. Protect the Controller (`MoviesController.cs`)*
+        <span class="k">if</span> <span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">IsSuccessStatusCode</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="c1">// Extract the token from the JSON response</span>
+            <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="k">await</span> <span class="n">response</span><span class="p">.</span><span class="n">Content</span><span class="p">.</span><span class="n">ReadFromJsonAsync</span><span class="p">&lt;</span><span class="n">JsonElement</span><span class="p">&gt;();</span>
+            <span class="n">jwtToken</span> <span class="p">=</span> <span class="n">result</span><span class="p">.</span><span class="nf">GetProperty</span><span class="p">(</span><span class="s">"token"</span><span class="p">).</span><span class="nf">GetString</span><span class="p">()!;</span>
+            <span class="n">loginMessage</span> <span class="p">=</span> <span class="s">""</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="n">loginMessage</span> <span class="p">=</span> <span class="s">"Login failed. Check credentials."</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
 
-* Open `MoviesController.cs` in **`CinemaApp.API`**.
-* Add `using Microsoft.AspNetCore.Authorization;` at the top.
-* Add this **POST** endpoint inside the class. Notice the `[Authorize]` attribute.
+    <span class="k">private</span> <span class="k">async</span> <span class="n">Task</span> <span class="nf">CreateMovie</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// 1. Create the Request manually</span>
+        <span class="kt">var</span> <span class="n">request</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">HttpRequestMessage</span><span class="p">(</span><span class="n">HttpMethod</span><span class="p">.</span><span class="n">Post</span><span class="p">,</span> <span class="s">"api/Movies"</span><span class="p">);</span>
 
-*File: `MoviesController.cs`*
-[source,csharp]
-....
-// POST: api/movies
-[HttpPost]
-[Authorize] // &lt;--- This locks the door!
-public async Task&lt;ActionResult&lt;MovieDto&gt;&gt; CreateMovie(MovieDto movieDto)
-{
-    // 1. Map DTO -&gt; Domain Entity
-    var movie = _mapper.Map&lt;Movie&gt;(movieDto);
+        <span class="c1">// 2. Attach the Body (The Movie Data)</span>
+        <span class="n">request</span><span class="p">.</span><span class="n">Content</span> <span class="p">=</span> <span class="n">JsonContent</span><span class="p">.</span><span class="nf">Create</span><span class="p">(</span><span class="n">newMovie</span><span class="p">);</span>
 
-    // 2. Add to DB
-    _context.Movies.Add(movie);
-    await _context.SaveChangesAsync();
+        <span class="c1">// 3. ATTACH THE HEADER (This is what Swagger was failing to do)</span>
+        <span class="n">request</span><span class="p">.</span><span class="n">Headers</span><span class="p">.</span><span class="n">Authorization</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">AuthenticationHeaderValue</span><span class="p">(</span><span class="s">"Bearer"</span><span class="p">,</span> <span class="n">jwtToken</span><span class="p">);</span>
 
-    // 3. Map back to DTO for response
-    var returnDto = _mapper.Map&lt;MovieDto&gt;(movie);
+        <span class="c1">// 4. Send</span>
+        <span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">Http</span><span class="p">.</span><span class="nf">SendAsync</span><span class="p">(</span><span class="n">request</span><span class="p">);</span>
 
-    return CreatedAtAction(nameof(GetMovie), new { id = returnDto.Id }, returnDto);
-}
-....
-
-*2. Test the Security*
-
-* Run the app (**F5**).
-* **Test:** Try to use `POST /api/movies` *without* doing anything else. You should get **401 Unauthorized**.
-
-=== 5.6 Add Admin Page
-
-Let's build a simple **Admin Page** in Blazor. This page will handle two things:
-
-. **Login:** To get the Token.
-. **Create Movie:** To send the data **with** the Token attached.
-
-*1. Create the Admin Page*
-
-* In **`CinemaApp.Client`**, right-click **`Pages`** -&gt; **Add** -&gt; **Razor Component**.
-* Name it: `Admin.razor`.
-
-*2. The Code*
-
-*File: `Admin.razor`*
-[source,csharp]
-....
-@page "/admin"
-@using CinemaApp.Shared
-@using System.Net.Http.Headers
-@using System.Text.Json
-@inject HttpClient Http
-
-&lt;PageTitle&gt;Admin Dashboard&lt;/PageTitle&gt;
-
-&lt;div class="container mt-4"&gt;
-    &lt;h1&gt;Admin Dashboard&lt;/h1&gt;
-
-    @if (string.IsNullOrEmpty(jwtToken))
-    {
-        &lt;div class="card p-4" style="max-width: 400px;"&gt;
-            &lt;h3&gt;Login&lt;/h3&gt;
-            &lt;div class="mb-3"&gt;
-                &lt;label&gt;Email&lt;/label&gt;
-                &lt;input @bind="loginModel.Email" class="form-control" placeholder="admin@cinema.com" /&gt;
-            &lt;/div&gt;
-            &lt;div class="mb-3"&gt;
-                &lt;label&gt;Password&lt;/label&gt;
-                &lt;input @bind="loginModel.Password" type="password" class="form-control" placeholder="Password123!" /&gt;
-            &lt;/div&gt;
-            &lt;button class="btn btn-primary" @onclick="Login"&gt;Login&lt;/button&gt;
-            &lt;p class="text-danger mt-2"&gt;@loginMessage&lt;/p&gt;
-        &lt;/div&gt;
-    }
-    else
-    {
-        &lt;div class="card p-4"&gt;
-            &lt;h3&gt;Add New Movie&lt;/h3&gt;
-            &lt;div class="mb-3"&gt;
-                &lt;label&gt;Title&lt;/label&gt;
-                &lt;input @bind="newMovie.Title" class="form-control" /&gt;
-            &lt;/div&gt;
-            &lt;div class="mb-3"&gt;
-                &lt;label&gt;Description&lt;/label&gt;
-                &lt;textarea @bind="newMovie.Description" class="form-control"&gt;&lt;/textarea&gt;
-            &lt;/div&gt;
-
-            &lt;button class="btn btn-success" @onclick="CreateMovie"&gt;Create Movie&lt;/button&gt;
-            &lt;p class="mt-2"&gt;@createMessage&lt;/p&gt;
-        &lt;/div&gt;
-    }
-&lt;/div&gt;
-
-@code {
-    // State
-    private string jwtToken = "";
-    private string loginMessage = "";
-    private string createMessage = "";
-
-    // Models
-    private UserLoginDto loginModel = new();
-    private MovieDto newMovie = new();
-
-    private async Task Login()
-    {
-        var response = await Http.PostAsJsonAsync("api/Auth/login", loginModel);
-
-        if (response.IsSuccessStatusCode)
-        {
-            // Extract the token from the JSON response
-            var result = await response.Content.ReadFromJsonAsync&lt;JsonElement&gt;();
-            jwtToken = result.GetProperty("token").GetString()!;
-            loginMessage = "";
-        }
-        else
-        {
-            loginMessage = "Login failed. Check credentials.";
-        }
-    }
-
-    private async Task CreateMovie()
-    {
-        // 1. Create the Request manually
-        var request = new HttpRequestMessage(HttpMethod.Post, "api/Movies");
-
-        // 2. Attach the Body (The Movie Data)
-        request.Content = JsonContent.Create(newMovie);
-
-        // 3. ATTACH THE HEADER (This is what Swagger was failing to do)
-        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
-
-        // 4. Send
-        var response = await Http.SendAsync(request);
-
-        if (response.IsSuccessStatusCode)
-        {
-            createMessage = "Success! Movie created.";
-            newMovie = new MovieDto(); // Reset form
-        }
-        else
-        {
-            createMessage = $"Error: {response.StatusCode}";
-        }
-    }
-}
-....
-
-*3. Test the Security*
-
-* Run the app (**F5**).
-* **Test:** Try to use `POST /api/movies` *without* doing anything else. You should get **401 Unauthorized**.
-
-=== 5.7 Linking the Admin Page and add Showtime Input
-Now we want to link the Admin Page on the Sidebar and also add Showtimes
-
-**Step 1: Add the Link to the Navigation Menu**
-
-Open **`Shared/NavMenu.razor`** in the **Client** project.
-
-Add this block inside the `&lt;nav&gt;` section (usually at the bottom of the list):
-
-*File: `NavMenu.razor`*
-[source,razor]
-....
-&lt;div class="nav-item px-3"&gt;
+        <span class="k">if</span> <span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">IsSuccessStatusCode</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">createMessage</span> <span class="p">=</span> <span class="s">"Success! Movie created."</span><span class="p">;</span>
+            <span class="n">newMovie</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">MovieDto</span><span class="p">();</span> <span class="c1">// Reset form</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="n">createMessage</span> <span class="p">=</span> <span class="s">$"Error: </span><span class="p">{</span><span class="n">response</span><span class="p">.</span><span class="n">StatusCode</span><span class="p">}</span><span class="s">"</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>3. Test the Security</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Run the app (<strong>F5</strong>).</p>
+</li>
+<li>
+<p><strong>Test:</strong> Try to use <code>POST /api/movies</code> <strong>without</strong> doing anything else. You should get <strong>401 Unauthorized</strong>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_5_7_linking_the_admin_page_and_add_showtime_input">5.7 Linking the Admin Page and add Showtime Input</h3>
+<div class="paragraph">
+<p>Now we want to link the Admin Page on the Sidebar and also add Showtimes</p>
+</div>
+<div class="paragraph">
+<p><strong>Step 1: Add the Link to the Navigation Menu</strong></p>
+</div>
+<div class="paragraph">
+<p>Open <strong><code>Shared/NavMenu.razor</code></strong> in the <strong>Client</strong> project.</p>
+</div>
+<div class="paragraph">
+<p>Add this block inside the <code>&lt;nav&gt;</code> section (usually at the bottom of the list):</p>
+</div>
+<div class="paragraph">
+<p><strong>File: <code>NavMenu.razor</code></strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="razor">&lt;div class="nav-item px-3"&gt;
     &lt;NavLink class="nav-link" href="admin"&gt;
         &lt;span class="bi bi-lock-fill" aria-hidden="true"&gt;&lt;/span&gt; Admin
     &lt;/NavLink&gt;
-&lt;/div&gt;
-....</pre>
+&lt;/div&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1055,145 +1269,145 @@ Add this block inside the `&lt;nav&gt;` section (usually at the bottom of the li
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-csharp" data-lang="csharp">@page "/admin"
-@using CinemaApp.Shared
-@using System.Net.Http.Headers
-@using System.Text.Json
-@inject HttpClient Http
+<pre class="rouge highlight"><code data-lang="csharp"><span class="n">@page</span> <span class="s">"/admin"</span>
+<span class="n">@using</span> <span class="n">CinemaApp</span><span class="p">.</span><span class="n">Shared</span>
+<span class="n">@using</span> <span class="n">System</span><span class="p">.</span><span class="n">Net</span><span class="p">.</span><span class="n">Http</span><span class="p">.</span><span class="n">Headers</span>
+<span class="n">@using</span> <span class="n">System</span><span class="p">.</span><span class="n">Text</span><span class="p">.</span><span class="n">Json</span>
+<span class="n">@inject</span> <span class="n">HttpClient</span> <span class="n">Http</span>
 
-&lt;PageTitle&gt;Admin Dashboard&lt;/PageTitle&gt;
+<span class="p">&lt;</span><span class="n">PageTitle</span><span class="p">&gt;</span><span class="n">Admin</span> <span class="n">Dashboard</span><span class="p">&lt;/</span><span class="n">PageTitle</span><span class="p">&gt;</span>
 
-&lt;div class="container mt-4"&gt;
-    &lt;h1&gt;Admin Dashboard&lt;/h1&gt;
+<span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">container</span> <span class="n">mt</span><span class="p">-</span><span class="m">4</span><span class="s">"&gt;
+</span>    <span class="p">&lt;</span><span class="n">h1</span><span class="p">&gt;</span><span class="n">Admin</span> <span class="n">Dashboard</span><span class="p">&lt;/</span><span class="n">h1</span><span class="p">&gt;</span>
 
-    @if (string.IsNullOrEmpty(jwtToken))
-    {
-        &lt;div class="card p-4 shadow-sm" style="max-width: 400px;"&gt;
-            &lt;h3&gt;Login&lt;/h3&gt;
-            &lt;div class="mb-3"&gt;
-                &lt;label class="form-label"&gt;Email&lt;/label&gt;
-                &lt;input @bind="loginModel.Email" class="form-control" placeholder="admin@cinema.com" /&gt;
-            &lt;/div&gt;
-            &lt;div class="mb-3"&gt;
-                &lt;label class="form-label"&gt;Password&lt;/label&gt;
-                &lt;input @bind="loginModel.Password" type="password" class="form-control" placeholder="Password123!" /&gt;
-            &lt;/div&gt;
-            &lt;button class="btn btn-primary w-100" @onclick="Login"&gt;Login&lt;/button&gt;
-            &lt;p class="text-danger mt-2"&gt;@loginMessage&lt;/p&gt;
-        &lt;/div&gt;
-    }
-    else
-    {
-        &lt;div class="card p-4 shadow-sm"&gt;
-            &lt;h3&gt;Add New Movie&lt;/h3&gt;
+    <span class="nf">@if</span> <span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="nf">IsNullOrEmpty</span><span class="p">(</span><span class="n">jwtToken</span><span class="p">))</span>
+    <span class="p">{</span>
+        <span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">card</span> <span class="n">p</span><span class="p">-</span><span class="m">4</span> <span class="n">shadow</span><span class="p">-</span><span class="n">sm</span><span class="s">" style="</span><span class="n">max</span><span class="p">-</span><span class="n">width</span><span class="p">:</span> <span class="m">400</span><span class="n">px</span><span class="p">;</span><span class="s">"&gt;
+</span>            <span class="p">&lt;</span><span class="n">h3</span><span class="p">&gt;</span><span class="n">Login</span><span class="p">&lt;/</span><span class="n">h3</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">mb</span><span class="p">-</span><span class="m">3</span><span class="s">"&gt;
+</span>                <span class="p">&lt;</span><span class="n">label</span> <span class="k">class</span><span class="err">="</span><span class="nc">form</span><span class="p">-</span><span class="n">label</span><span class="s">"&gt;Email&lt;/label&gt;
+</span>                <span class="p">&lt;</span><span class="n">input</span> <span class="n">@bind</span><span class="p">=</span><span class="s">"loginModel.Email"</span> <span class="k">class</span><span class="err">="</span><span class="nc">form</span><span class="p">-</span><span class="n">control</span><span class="s">" placeholder="</span><span class="n">admin@cinema</span><span class="p">.</span><span class="n">com</span><span class="s">" /&gt;
+</span>            <span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">mb</span><span class="p">-</span><span class="m">3</span><span class="s">"&gt;
+</span>                <span class="p">&lt;</span><span class="n">label</span> <span class="k">class</span><span class="err">="</span><span class="nc">form</span><span class="p">-</span><span class="n">label</span><span class="s">"&gt;Password&lt;/label&gt;
+</span>                <span class="p">&lt;</span><span class="n">input</span> <span class="n">@bind</span><span class="p">=</span><span class="s">"loginModel.Password"</span> <span class="n">type</span><span class="p">=</span><span class="s">"password"</span> <span class="k">class</span><span class="err">="</span><span class="nc">form</span><span class="p">-</span><span class="n">control</span><span class="s">" placeholder="</span><span class="n">Password123</span><span class="p">!</span><span class="s">" /&gt;
+</span>            <span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="n">button</span> <span class="k">class</span><span class="err">="</span><span class="nc">btn</span> <span class="n">btn</span><span class="p">-</span><span class="n">primary</span> <span class="n">w</span><span class="p">-</span><span class="m">100</span><span class="s">" @onclick="</span><span class="n">Login</span><span class="s">"&gt;Login&lt;/button&gt;
+</span>            <span class="p">&lt;</span><span class="n">p</span> <span class="k">class</span><span class="err">="</span><span class="nc">text</span><span class="p">-</span><span class="n">danger</span> <span class="n">mt</span><span class="p">-</span><span class="m">2</span><span class="s">"&gt;@loginMessage&lt;/p&gt;
+</span>        <span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">card</span> <span class="n">p</span><span class="p">-</span><span class="m">4</span> <span class="n">shadow</span><span class="p">-</span><span class="n">sm</span><span class="s">"&gt;
+</span>            <span class="p">&lt;</span><span class="n">h3</span><span class="p">&gt;</span><span class="n">Add</span> <span class="n">New</span> <span class="n">Movie</span><span class="p">&lt;/</span><span class="n">h3</span><span class="p">&gt;</span>
 
-            &lt;div class="row"&gt;
-                &lt;div class="col-md-6"&gt;
-                    &lt;div class="mb-3"&gt;
-                        &lt;label class="form-label"&gt;Title&lt;/label&gt;
-                        &lt;input @bind="newMovie.Title" class="form-control" placeholder="e.g. Inception" /&gt;
-                    &lt;/div&gt;
-                    &lt;div class="mb-3"&gt;
-                        &lt;label class="form-label"&gt;Description&lt;/label&gt;
-                        &lt;textarea @bind="newMovie.Description" class="form-control" rows="3"&gt;&lt;/textarea&gt;
-                    &lt;/div&gt;
-                &lt;/div&gt;
+            <span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">row</span><span class="s">"&gt;
+</span>                <span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">col</span><span class="p">-</span><span class="n">md</span><span class="p">-</span><span class="m">6</span><span class="s">"&gt;
+</span>                    <span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">mb</span><span class="p">-</span><span class="m">3</span><span class="s">"&gt;
+</span>                        <span class="p">&lt;</span><span class="n">label</span> <span class="k">class</span><span class="err">="</span><span class="nc">form</span><span class="p">-</span><span class="n">label</span><span class="s">"&gt;Title&lt;/label&gt;
+</span>                        <span class="p">&lt;</span><span class="n">input</span> <span class="n">@bind</span><span class="p">=</span><span class="s">"newMovie.Title"</span> <span class="k">class</span><span class="err">="</span><span class="nc">form</span><span class="p">-</span><span class="n">control</span><span class="s">" placeholder="</span><span class="n">e</span><span class="p">.</span><span class="n">g</span><span class="p">.</span> <span class="n">Inception</span><span class="s">" /&gt;
+</span>                    <span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">mb</span><span class="p">-</span><span class="m">3</span><span class="s">"&gt;
+</span>                        <span class="p">&lt;</span><span class="n">label</span> <span class="k">class</span><span class="err">="</span><span class="nc">form</span><span class="p">-</span><span class="n">label</span><span class="s">"&gt;Description&lt;/label&gt;
+</span>                        <span class="p">&lt;</span><span class="n">textarea</span> <span class="n">@bind</span><span class="p">=</span><span class="s">"newMovie.Description"</span> <span class="k">class</span><span class="err">="</span><span class="nc">form</span><span class="p">-</span><span class="n">control</span><span class="s">" rows="</span><span class="m">3</span><span class="s">"&gt;&lt;/textarea&gt;
+</span>                    <span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
+                <span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
 
-                &lt;div class="col-md-6"&gt;
-                    &lt;div class="card bg-light p-3"&gt;
-                        &lt;h5&gt;Add Showtimes&lt;/h5&gt;
-                        &lt;div class="d-flex gap-2 mb-2"&gt;
-                            &lt;input @bind="tempShowtime.StartTime" type="datetime-local" class="form-control" /&gt;
-                            &lt;input @bind="tempShowtime.TicketPrice" type="number" class="form-control" placeholder="Price" style="width: 100px;" /&gt;
-                            &lt;button class="btn btn-secondary" @onclick="AddShowtimeToList"&gt;Add&lt;/button&gt;
-                        &lt;/div&gt;
+                <span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">col</span><span class="p">-</span><span class="n">md</span><span class="p">-</span><span class="m">6</span><span class="s">"&gt;
+</span>                    <span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">card</span> <span class="n">bg</span><span class="p">-</span><span class="n">light</span> <span class="n">p</span><span class="p">-</span><span class="m">3</span><span class="s">"&gt;
+</span>                        <span class="p">&lt;</span><span class="n">h5</span><span class="p">&gt;</span><span class="n">Add</span> <span class="n">Showtimes</span><span class="p">&lt;/</span><span class="n">h5</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">d</span><span class="p">-</span><span class="n">flex</span> <span class="n">gap</span><span class="p">-</span><span class="m">2</span> <span class="n">mb</span><span class="p">-</span><span class="m">2</span><span class="s">"&gt;
+</span>                            <span class="p">&lt;</span><span class="n">input</span> <span class="n">@bind</span><span class="p">=</span><span class="s">"tempShowtime.StartTime"</span> <span class="n">type</span><span class="p">=</span><span class="s">"datetime-local"</span> <span class="k">class</span><span class="err">="</span><span class="nc">form</span><span class="p">-</span><span class="n">control</span><span class="s">" /&gt;
+</span>                            <span class="p">&lt;</span><span class="n">input</span> <span class="n">@bind</span><span class="p">=</span><span class="s">"tempShowtime.TicketPrice"</span> <span class="n">type</span><span class="p">=</span><span class="s">"number"</span> <span class="k">class</span><span class="err">="</span><span class="nc">form</span><span class="p">-</span><span class="n">control</span><span class="s">" placeholder="</span><span class="n">Price</span><span class="s">" style="</span><span class="n">width</span><span class="p">:</span> <span class="m">100</span><span class="n">px</span><span class="p">;</span><span class="s">" /&gt;
+</span>                            <span class="p">&lt;</span><span class="n">button</span> <span class="k">class</span><span class="err">="</span><span class="nc">btn</span> <span class="n">btn</span><span class="p">-</span><span class="n">secondary</span><span class="s">" @onclick="</span><span class="n">AddShowtimeToList</span><span class="s">"&gt;Add&lt;/button&gt;
+</span>                        <span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
 
-                        &lt;ul class="list-group"&gt;
-                            @foreach (var show in newMovie.Showtimes)
-                            {
-                                &lt;li class="list-group-item d-flex justify-content-between align-items-center"&gt;
-                                    &lt;span&gt;@show.StartTime.ToString("g") - $@show.TicketPrice&lt;/span&gt;
-                                    &lt;button class="btn btn-sm btn-danger" @onclick="() =&gt; newMovie.Showtimes.Remove(show)"&gt;X&lt;/button&gt;
-                                &lt;/li&gt;
-                            }
-                            @if (newMovie.Showtimes.Count == 0)
-                            {
-                                &lt;li class="list-group-item text-muted"&gt;No showtimes added yet.&lt;/li&gt;
-                            }
-                        &lt;/ul&gt;
-                    &lt;/div&gt;
-                &lt;/div&gt;
-            &lt;/div&gt;
+                        <span class="p">&lt;</span><span class="n">ul</span> <span class="k">class</span><span class="err">="</span><span class="nc">list</span><span class="p">-</span><span class="k">group</span><span class="s">"&gt;
+</span>                            <span class="nf">@foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">show</span> <span class="k">in</span> <span class="n">newMovie</span><span class="p">.</span><span class="n">Showtimes</span><span class="p">)</span>
+                            <span class="p">{</span>
+                                <span class="p">&lt;</span><span class="n">li</span> <span class="k">class</span><span class="err">="</span><span class="nc">list</span><span class="p">-</span><span class="k">group</span><span class="p">-</span><span class="n">item</span> <span class="n">d</span><span class="p">-</span><span class="n">flex</span> <span class="n">justify</span><span class="p">-</span><span class="n">content</span><span class="p">-</span><span class="n">between</span> <span class="n">align</span><span class="p">-</span><span class="n">items</span><span class="p">-</span><span class="n">center</span><span class="s">"&gt;
+</span>                                    <span class="p">&lt;</span><span class="n">span</span><span class="p">&gt;</span><span class="n">@show</span><span class="p">.</span><span class="n">StartTime</span><span class="p">.</span><span class="nf">ToString</span><span class="p">(</span><span class="s">"g"</span><span class="p">)</span> <span class="p">-</span> <span class="err">$</span><span class="n">@show</span><span class="p">.</span><span class="n">TicketPrice</span><span class="p">&lt;/</span><span class="n">span</span><span class="p">&gt;</span>
+                                    <span class="p">&lt;</span><span class="n">button</span> <span class="k">class</span><span class="err">="</span><span class="nc">btn</span> <span class="n">btn</span><span class="p">-</span><span class="n">sm</span> <span class="n">btn</span><span class="p">-</span><span class="n">danger</span><span class="s">" @onclick="</span><span class="p">()</span> <span class="p">=&gt;</span> <span class="n">newMovie</span><span class="p">.</span><span class="n">Showtimes</span><span class="p">.</span><span class="nf">Remove</span><span class="p">(</span><span class="n">show</span><span class="p">)</span><span class="s">"&gt;X&lt;/button&gt;
+</span>                                <span class="p">&lt;/</span><span class="n">li</span><span class="p">&gt;</span>
+                            <span class="p">}</span>
+                            <span class="nf">@if</span> <span class="p">(</span><span class="n">newMovie</span><span class="p">.</span><span class="n">Showtimes</span><span class="p">.</span><span class="n">Count</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span>
+                            <span class="p">{</span>
+                                <span class="p">&lt;</span><span class="n">li</span> <span class="k">class</span><span class="err">="</span><span class="nc">list</span><span class="p">-</span><span class="k">group</span><span class="p">-</span><span class="n">item</span> <span class="n">text</span><span class="p">-</span><span class="n">muted</span><span class="s">"&gt;No showtimes added yet.&lt;/li&gt;
+</span>                            <span class="p">}</span>
+                        <span class="p">&lt;/</span><span class="n">ul</span><span class="p">&gt;</span>
+                    <span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
+                <span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
 
-            &lt;hr /&gt;
-            &lt;button class="btn btn-success btn-lg" @onclick="CreateMovie"&gt;Save Movie &amp; Showtimes&lt;/button&gt;
-            &lt;p class="mt-2 fw-bold @(isSuccess ? "text-success" : "text-danger")"&gt;@createMessage&lt;/p&gt;
-        &lt;/div&gt;
-    }
-&lt;/div&gt;
+            <span class="p">&lt;</span><span class="n">hr</span> <span class="p">/&gt;</span>
+            <span class="p">&lt;</span><span class="n">button</span> <span class="k">class</span><span class="err">="</span><span class="nc">btn</span> <span class="n">btn</span><span class="p">-</span><span class="n">success</span> <span class="n">btn</span><span class="p">-</span><span class="n">lg</span><span class="s">" @onclick="</span><span class="n">CreateMovie</span><span class="s">"&gt;Save Movie &amp; Showtimes&lt;/button&gt;
+</span>            <span class="p">&lt;</span><span class="n">p</span> <span class="k">class</span><span class="err">="</span><span class="nc">mt</span><span class="p">-</span><span class="m">2</span> <span class="n">fw</span><span class="p">-</span><span class="n">bold</span> <span class="err">@</span><span class="p">(</span><span class="n">isSuccess</span> <span class="p">?</span> <span class="s">"text-success"</span> <span class="p">:</span> <span class="s">"text-danger"</span><span class="p">)</span><span class="s">"&gt;@createMessage&lt;/p&gt;
+</span>        <span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
+    <span class="p">}</span>
+<span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
 
-@code {
-    // State
-    private string jwtToken = "";
-    private string loginMessage = "";
-    private string createMessage = "";
-    private bool isSuccess = false;
+<span class="n">@code</span> <span class="p">{</span>
+    <span class="c1">// State</span>
+    <span class="k">private</span> <span class="kt">string</span> <span class="n">jwtToken</span> <span class="p">=</span> <span class="s">""</span><span class="p">;</span>
+    <span class="k">private</span> <span class="kt">string</span> <span class="n">loginMessage</span> <span class="p">=</span> <span class="s">""</span><span class="p">;</span>
+    <span class="k">private</span> <span class="kt">string</span> <span class="n">createMessage</span> <span class="p">=</span> <span class="s">""</span><span class="p">;</span>
+    <span class="k">private</span> <span class="kt">bool</span> <span class="n">isSuccess</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
 
-    // Models
-    private UserLoginDto loginModel = new();
-    private MovieDto newMovie = new();
+    <span class="c1">// Models</span>
+    <span class="k">private</span> <span class="n">UserLoginDto</span> <span class="n">loginModel</span> <span class="p">=</span> <span class="k">new</span><span class="p">();</span>
+    <span class="k">private</span> <span class="n">MovieDto</span> <span class="n">newMovie</span> <span class="p">=</span> <span class="k">new</span><span class="p">();</span>
 
-    // Temporary object for the inputs
-    private ShowtimeDto tempShowtime = new() { StartTime = DateTime.Now, TicketPrice = 12 };
+    <span class="c1">// Temporary object for the inputs</span>
+    <span class="k">private</span> <span class="n">ShowtimeDto</span> <span class="n">tempShowtime</span> <span class="p">=</span> <span class="k">new</span><span class="p">()</span> <span class="p">{</span> <span class="n">StartTime</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">,</span> <span class="n">TicketPrice</span> <span class="p">=</span> <span class="m">12</span> <span class="p">};</span>
 
-    private async Task Login()
-    {
-        var response = await Http.PostAsJsonAsync("api/Auth/login", loginModel);
+    <span class="k">private</span> <span class="k">async</span> <span class="n">Task</span> <span class="nf">Login</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">Http</span><span class="p">.</span><span class="nf">PostAsJsonAsync</span><span class="p">(</span><span class="s">"api/Auth/login"</span><span class="p">,</span> <span class="n">loginModel</span><span class="p">);</span>
 
-        if (response.IsSuccessStatusCode)
-        {
-            var result = await response.Content.ReadFromJsonAsync&lt;JsonElement&gt;();
-            jwtToken = result.GetProperty("token").GetString()!;
-            loginMessage = "";
-        }
-        else
-        {
-            loginMessage = "Login failed. Check credentials.";
-        }
-    }
+        <span class="k">if</span> <span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">IsSuccessStatusCode</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="k">await</span> <span class="n">response</span><span class="p">.</span><span class="n">Content</span><span class="p">.</span><span class="n">ReadFromJsonAsync</span><span class="p">&lt;</span><span class="n">JsonElement</span><span class="p">&gt;();</span>
+            <span class="n">jwtToken</span> <span class="p">=</span> <span class="n">result</span><span class="p">.</span><span class="nf">GetProperty</span><span class="p">(</span><span class="s">"token"</span><span class="p">).</span><span class="nf">GetString</span><span class="p">()!;</span>
+            <span class="n">loginMessage</span> <span class="p">=</span> <span class="s">""</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="n">loginMessage</span> <span class="p">=</span> <span class="s">"Login failed. Check credentials."</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
 
-    private void AddShowtimeToList()
-    {
-        // Add a COPY of the temp object to the list
-        newMovie.Showtimes.Add(new ShowtimeDto
-        {
-            StartTime = tempShowtime.StartTime,
-            TicketPrice = tempShowtime.TicketPrice
-        });
-    }
+    <span class="k">private</span> <span class="k">void</span> <span class="nf">AddShowtimeToList</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// Add a COPY of the temp object to the list</span>
+        <span class="n">newMovie</span><span class="p">.</span><span class="n">Showtimes</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="k">new</span> <span class="n">ShowtimeDto</span>
+        <span class="p">{</span>
+            <span class="n">StartTime</span> <span class="p">=</span> <span class="n">tempShowtime</span><span class="p">.</span><span class="n">StartTime</span><span class="p">,</span>
+            <span class="n">TicketPrice</span> <span class="p">=</span> <span class="n">tempShowtime</span><span class="p">.</span><span class="n">TicketPrice</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
 
-    private async Task CreateMovie()
-    {
-        var request = new HttpRequestMessage(HttpMethod.Post, "api/Movies");
-        request.Content = JsonContent.Create(newMovie);
-        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
+    <span class="k">private</span> <span class="k">async</span> <span class="n">Task</span> <span class="nf">CreateMovie</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="kt">var</span> <span class="n">request</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">HttpRequestMessage</span><span class="p">(</span><span class="n">HttpMethod</span><span class="p">.</span><span class="n">Post</span><span class="p">,</span> <span class="s">"api/Movies"</span><span class="p">);</span>
+        <span class="n">request</span><span class="p">.</span><span class="n">Content</span> <span class="p">=</span> <span class="n">JsonContent</span><span class="p">.</span><span class="nf">Create</span><span class="p">(</span><span class="n">newMovie</span><span class="p">);</span>
+        <span class="n">request</span><span class="p">.</span><span class="n">Headers</span><span class="p">.</span><span class="n">Authorization</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">AuthenticationHeaderValue</span><span class="p">(</span><span class="s">"Bearer"</span><span class="p">,</span> <span class="n">jwtToken</span><span class="p">);</span>
 
-        var response = await Http.SendAsync(request);
+        <span class="kt">var</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">Http</span><span class="p">.</span><span class="nf">SendAsync</span><span class="p">(</span><span class="n">request</span><span class="p">);</span>
 
-        if (response.IsSuccessStatusCode)
-        {
-            isSuccess = true;
-            createMessage = "Success! Movie and Showtimes created.";
-            newMovie = new MovieDto(); // Reset form
-            newMovie.Showtimes = new List&lt;ShowtimeDto&gt;(); // Reset list
-        }
-        else
-        {
-            isSuccess = false;
-            createMessage = $"Error: {response.StatusCode}";
-        }
-    }
-}</code></pre>
+        <span class="k">if</span> <span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="n">IsSuccessStatusCode</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">isSuccess</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+            <span class="n">createMessage</span> <span class="p">=</span> <span class="s">"Success! Movie and Showtimes created."</span><span class="p">;</span>
+            <span class="n">newMovie</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">MovieDto</span><span class="p">();</span> <span class="c1">// Reset form</span>
+            <span class="n">newMovie</span><span class="p">.</span><span class="n">Showtimes</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">ShowtimeDto</span><span class="p">&gt;();</span> <span class="c1">// Reset list</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="n">isSuccess</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+            <span class="n">createMessage</span> <span class="p">=</span> <span class="s">$"Error: </span><span class="p">{</span><span class="n">response</span><span class="p">.</span><span class="n">StatusCode</span><span class="p">}</span><span class="s">"</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1233,7 +1447,7 @@ Add this block inside the `&lt;nav&gt;` section (usually at the bottom of the li
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-12-02 19:08:20 +0100
+Last updated 2025-12-19 14:30:25 +0100
 </div>
 </div>
 </body>

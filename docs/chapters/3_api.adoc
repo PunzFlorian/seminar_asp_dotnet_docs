@@ -1,3 +1,6 @@
+:source-highlighter: rouge
+:rouge-style: github
+
 == 3 API
 
 === 3.1: Creating the Shared DTO Project

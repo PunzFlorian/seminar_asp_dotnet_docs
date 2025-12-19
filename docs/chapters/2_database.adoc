@@ -1,3 +1,6 @@
+:source-highlighter: rouge
+:rouge-style: github
+
 == 2 Database
 
 === 2.1 Create Domain Classes

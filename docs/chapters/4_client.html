@@ -433,6 +433,124 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
+<style>
+pre.rouge table td { padding: 5px; }
+pre.rouge table pre { margin: 0; }
+pre.rouge, pre.rouge .w {
+  color: #24292f;
+  background-color: #f6f8fa;
+}
+pre.rouge .k, pre.rouge .kd, pre.rouge .kn, pre.rouge .kp, pre.rouge .kr, pre.rouge .kt, pre.rouge .kv {
+  color: #cf222e;
+}
+pre.rouge .gr {
+  color: #f6f8fa;
+}
+pre.rouge .gd {
+  color: #82071e;
+  background-color: #ffebe9;
+}
+pre.rouge .nb {
+  color: #953800;
+}
+pre.rouge .nc {
+  color: #953800;
+}
+pre.rouge .no {
+  color: #953800;
+}
+pre.rouge .nn {
+  color: #953800;
+}
+pre.rouge .sr {
+  color: #116329;
+}
+pre.rouge .na {
+  color: #116329;
+}
+pre.rouge .nt {
+  color: #116329;
+}
+pre.rouge .gi {
+  color: #116329;
+  background-color: #dafbe1;
+}
+pre.rouge .ges {
+  font-weight: bold;
+  font-style: italic;
+}
+pre.rouge .kc {
+  color: #0550ae;
+}
+pre.rouge .l, pre.rouge .ld, pre.rouge .m, pre.rouge .mb, pre.rouge .mf, pre.rouge .mh, pre.rouge .mi, pre.rouge .il, pre.rouge .mo, pre.rouge .mx {
+  color: #0550ae;
+}
+pre.rouge .sb {
+  color: #0550ae;
+}
+pre.rouge .bp {
+  color: #0550ae;
+}
+pre.rouge .ne {
+  color: #0550ae;
+}
+pre.rouge .nl {
+  color: #0550ae;
+}
+pre.rouge .py {
+  color: #0550ae;
+}
+pre.rouge .nv, pre.rouge .vc, pre.rouge .vg, pre.rouge .vi, pre.rouge .vm {
+  color: #0550ae;
+}
+pre.rouge .o, pre.rouge .ow {
+  color: #0550ae;
+}
+pre.rouge .gh {
+  color: #0550ae;
+  font-weight: bold;
+}
+pre.rouge .gu {
+  color: #0550ae;
+  font-weight: bold;
+}
+pre.rouge .s, pre.rouge .sa, pre.rouge .sc, pre.rouge .dl, pre.rouge .sd, pre.rouge .s2, pre.rouge .se, pre.rouge .sh, pre.rouge .sx, pre.rouge .s1, pre.rouge .ss {
+  color: #0a3069;
+}
+pre.rouge .nd {
+  color: #8250df;
+}
+pre.rouge .nf, pre.rouge .fm {
+  color: #8250df;
+}
+pre.rouge .err {
+  color: #f6f8fa;
+  background-color: #82071e;
+}
+pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cm, pre.rouge .cp, pre.rouge .cpf, pre.rouge .c1, pre.rouge .cs {
+  color: #6e7781;
+}
+pre.rouge .gl {
+  color: #6e7781;
+}
+pre.rouge .gt {
+  color: #6e7781;
+}
+pre.rouge .ni {
+  color: #24292f;
+}
+pre.rouge .si {
+  color: #24292f;
+}
+pre.rouge .ge {
+  color: #24292f;
+  font-style: italic;
+}
+pre.rouge .gs {
+  color: #24292f;
+  font-weight: bold;
+}
+</style>
 </head>
 <body class="article">
 <div id="header">
@@ -465,15 +583,15 @@ Scroll up to where <code>builder.Services&#8230;&#8203;</code> lines are, and ad
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-csharp" data-lang="csharp">builder.Services.AddCors(options =&gt;
-{
-    options.AddPolicy("AllowAll", policy =&gt;
-    {
-        policy.AllowAnyOrigin()  // Allows Blazor (on any port) to connect
-              .AllowAnyMethod()  // Allows GET, POST, PUT, etc.
-              .AllowAnyHeader();
-    });
-});</code></pre>
+<pre class="rouge highlight"><code data-lang="csharp"><span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="nf">AddCors</span><span class="p">(</span><span class="n">options</span> <span class="p">=&gt;</span>
+<span class="p">{</span>
+    <span class="n">options</span><span class="p">.</span><span class="nf">AddPolicy</span><span class="p">(</span><span class="s">"AllowAll"</span><span class="p">,</span> <span class="n">policy</span> <span class="p">=&gt;</span>
+    <span class="p">{</span>
+        <span class="n">policy</span><span class="p">.</span><span class="nf">AllowAnyOrigin</span><span class="p">()</span>  <span class="c1">// Allows Blazor (on any port) to connect</span>
+              <span class="p">.</span><span class="nf">AllowAnyMethod</span><span class="p">()</span>  <span class="c1">// Allows GET, POST, PUT, etc.</span>
+              <span class="p">.</span><span class="nf">AllowAnyHeader</span><span class="p">();</span>
+    <span class="p">});</span>
+<span class="p">});</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -486,7 +604,7 @@ Scroll down.
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-csharp" data-lang="csharp">app.UseCors("AllowAll");</code></pre>
+<pre class="rouge highlight"><code data-lang="csharp"><span class="n">app</span><span class="p">.</span><span class="nf">UseCors</span><span class="p">(</span><span class="s">"AllowAll"</span><span class="p">);</span></code></pre>
 </div>
 </div>
 </div>
@@ -527,9 +645,9 @@ Scroll down.
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-csharp" data-lang="csharp">// Point the HttpClient to your API's specific URL
-builder.Services.AddScoped(sp =&gt;
-    new HttpClient { BaseAddress = new Uri("https://localhost:7000") });</code></pre>
+<pre class="rouge highlight"><code data-lang="csharp"><span class="c1">// Point the HttpClient to your API's specific URL</span>
+<span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="nf">AddScoped</span><span class="p">(</span><span class="n">sp</span> <span class="p">=&gt;</span>
+    <span class="k">new</span> <span class="n">HttpClient</span> <span class="p">{</span> <span class="n">BaseAddress</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">Uri</span><span class="p">(</span><span class="s">"https://localhost:7000"</span><span class="p">)</span> <span class="p">});</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -585,37 +703,37 @@ Paste this code into <code>MovieCard.razor</code>. We use standard Bootstrap cla
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-csharp" data-lang="csharp">@using CinemaApp.Shared.DTOs
+<pre class="rouge highlight"><code data-lang="csharp"><span class="n">@using</span> <span class="n">CinemaApp</span><span class="p">.</span><span class="n">Shared</span><span class="p">.</span><span class="n">DTOs</span>
 
-&lt;div class="card h-100" style="width: 18rem;"&gt;
-    &lt;img src="https://via.placeholder.com/286x180?text=Cinema+Movie" class="card-img-top" alt="..."&gt;
+<span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">card</span> <span class="n">h</span><span class="p">-</span><span class="m">100</span><span class="s">" style="</span><span class="n">width</span><span class="p">:</span> <span class="m">18</span><span class="n">rem</span><span class="p">;</span><span class="s">"&gt;
+</span>    <span class="p">&lt;</span><span class="n">img</span> <span class="n">src</span><span class="p">=</span><span class="s">"https://via.placeholder.com/286x180?text=Cinema+Movie"</span> <span class="k">class</span><span class="err">="</span><span class="nc">card</span><span class="p">-</span><span class="n">img</span><span class="p">-</span><span class="n">top</span><span class="s">" alt="</span><span class="p">...</span><span class="s">"&gt;
+</span>
+    <span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">card</span><span class="p">-</span><span class="n">body</span><span class="s">"&gt;
+</span>        <span class="p">&lt;</span><span class="n">h5</span> <span class="k">class</span><span class="err">="</span><span class="nc">card</span><span class="p">-</span><span class="n">title</span><span class="s">"&gt;@Movie.Title&lt;/h5&gt;
+</span>        <span class="p">&lt;</span><span class="n">p</span> <span class="k">class</span><span class="err">="</span><span class="nc">card</span><span class="p">-</span><span class="n">text</span><span class="s">"&gt;@ShortDescription&lt;/p&gt;
+</span>
+        <span class="p">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="p">=</span><span class="s">"/movie/@Movie.Id"</span> <span class="k">class</span><span class="err">="</span><span class="nc">btn</span> <span class="n">btn</span><span class="p">-</span><span class="n">primary</span><span class="s">"&gt;
+</span>            <span class="n">View</span> <span class="n">Showtimes</span>
+        <span class="p">&lt;/</span><span class="n">a</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
 
-    &lt;div class="card-body"&gt;
-        &lt;h5 class="card-title"&gt;@Movie.Title&lt;/h5&gt;
-        &lt;p class="card-text"&gt;@ShortDescription&lt;/p&gt;
+<span class="n">@code</span> <span class="p">{</span>
+    <span class="c1">// [Parameter] means "Parent, please pass this data to me!"</span>
+    <span class="p">[</span><span class="n">Parameter</span><span class="p">]</span>
+    <span class="k">public</span> <span class="n">MovieDto</span> <span class="n">Movie</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span> <span class="p">=</span> <span class="k">new</span><span class="p">();</span>
 
-        &lt;a href="/movie/@Movie.Id" class="btn btn-primary"&gt;
-            View Showtimes
-        &lt;/a&gt;
-    &lt;/div&gt;
-&lt;/div&gt;
-
-@code {
-    // [Parameter] means "Parent, please pass this data to me!"
-    [Parameter]
-    public MovieDto Movie { get; set; } = new();
-
-    // Helper to truncate long descriptions
-    public string ShortDescription
-    {
-        get
-        {
-            if (string.IsNullOrEmpty(Movie.Description)) return "";
-            if (Movie.Description.Length &gt; 50) return Movie.Description.Substring(0, 50) + "...";
-            return Movie.Description;
-        }
-    }
-}</code></pre>
+    <span class="c1">// Helper to truncate long descriptions</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">ShortDescription</span>
+    <span class="p">{</span>
+        <span class="k">get</span>
+        <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="kt">string</span><span class="p">.</span><span class="nf">IsNullOrEmpty</span><span class="p">(</span><span class="n">Movie</span><span class="p">.</span><span class="n">Description</span><span class="p">))</span> <span class="k">return</span> <span class="s">""</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">Movie</span><span class="p">.</span><span class="n">Description</span><span class="p">.</span><span class="n">Length</span> <span class="p">&gt;</span> <span class="m">50</span><span class="p">)</span> <span class="k">return</span> <span class="n">Movie</span><span class="p">.</span><span class="n">Description</span><span class="p">.</span><span class="nf">Substring</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">50</span><span class="p">)</span> <span class="p">+</span> <span class="s">"..."</span><span class="p">;</span>
+            <span class="k">return</span> <span class="n">Movie</span><span class="p">.</span><span class="n">Description</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre>
 </div>
 </div>
 </div>
@@ -639,42 +757,42 @@ Paste this code in. It handles the "Loading" state (while fetching data) and the
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-csharp" data-lang="csharp">@page "/"
-@using CinemaApp.Shared.DTOs
-@using CinemaApp.Client.Components
-@inject HttpClient Http
+<pre class="rouge highlight"><code data-lang="csharp"><span class="n">@page</span> <span class="s">"/"</span>
+<span class="n">@using</span> <span class="n">CinemaApp</span><span class="p">.</span><span class="n">Shared</span><span class="p">.</span><span class="n">DTOs</span>
+<span class="n">@using</span> <span class="n">CinemaApp</span><span class="p">.</span><span class="n">Client</span><span class="p">.</span><span class="n">Components</span>
+<span class="n">@inject</span> <span class="n">HttpClient</span> <span class="n">Http</span>
 
-&lt;PageTitle&gt;Cinema Schedule&lt;/PageTitle&gt;
+<span class="p">&lt;</span><span class="n">PageTitle</span><span class="p">&gt;</span><span class="n">Cinema</span> <span class="n">Schedule</span><span class="p">&lt;/</span><span class="n">PageTitle</span><span class="p">&gt;</span>
 
-&lt;div class="container"&gt;
-    &lt;h1 class="my-4"&gt;Now Showing&lt;/h1&gt;
+<span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">container</span><span class="s">"&gt;
+</span>    <span class="p">&lt;</span><span class="n">h1</span> <span class="k">class</span><span class="err">="</span><span class="nc">my</span><span class="p">-</span><span class="m">4</span><span class="s">"&gt;Now Showing&lt;/h1&gt;
+</span>
+    <span class="nf">@if</span> <span class="p">(</span><span class="n">movies</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">alert</span> <span class="n">alert</span><span class="p">-</span><span class="n">info</span><span class="s">"&gt;Loading movies...&lt;/div&gt;
+</span>    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">row</span><span class="s">"&gt;
+</span>            <span class="nf">@foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">movie</span> <span class="k">in</span> <span class="n">movies</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">col</span><span class="p">-</span><span class="n">md</span><span class="p">-</span><span class="m">4</span> <span class="n">col</span><span class="p">-</span><span class="n">sm</span><span class="p">-</span><span class="m">6</span> <span class="n">mb</span><span class="p">-</span><span class="m">4</span><span class="s">"&gt;
+</span>                    <span class="p">&lt;</span><span class="n">MovieCard</span> <span class="n">Movie</span><span class="p">=</span><span class="s">"movie"</span> <span class="p">/&gt;</span>
+                <span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
+            <span class="p">}</span>
+        <span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
+    <span class="p">}</span>
+<span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
 
-    @if (movies == null)
-    {
-        &lt;div class="alert alert-info"&gt;Loading movies...&lt;/div&gt;
-    }
-    else
-    {
-        &lt;div class="row"&gt;
-            @foreach (var movie in movies)
-            {
-                &lt;div class="col-md-4 col-sm-6 mb-4"&gt;
-                    &lt;MovieCard Movie="movie" /&gt;
-                &lt;/div&gt;
-            }
-        &lt;/div&gt;
-    }
-&lt;/div&gt;
+<span class="n">@code</span> <span class="p">{</span>
+    <span class="k">private</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">MovieDto</span><span class="p">&gt;?</span> <span class="n">movies</span><span class="p">;</span>
 
-@code {
-    private List&lt;MovieDto&gt;? movies;
-
-    protected override async Task OnInitializedAsync()
-    {
-        // Fetch the data from the API
-        movies = await Http.GetFromJsonAsync&lt;List&lt;MovieDto&gt;&gt;("api/movies");
-    }
-}</code></pre>
+    <span class="k">protected</span> <span class="k">override</span> <span class="k">async</span> <span class="n">Task</span> <span class="nf">OnInitializedAsync</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// Fetch the data from the API</span>
+        <span class="n">movies</span> <span class="p">=</span> <span class="k">await</span> <span class="n">Http</span><span class="p">.</span><span class="n">GetFromJsonAsync</span><span class="p">&lt;</span><span class="n">List</span><span class="p">&lt;</span><span class="n">MovieDto</span><span class="p">&gt;&gt;(</span><span class="s">"api/movies"</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre>
 </div>
 </div>
 </div>
@@ -740,76 +858,76 @@ Paste this code. Notice the <code>@page</code> directive at the top—it tells B
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-csharp" data-lang="csharp">@page "/movie/{id:int}"
-@using CinemaApp.Shared.DTOs
-@inject HttpClient Http
+<pre class="rouge highlight"><code data-lang="csharp"><span class="n">@page</span> <span class="s">"/movie/{id:int}"</span>
+<span class="n">@using</span> <span class="n">CinemaApp</span><span class="p">.</span><span class="n">Shared</span><span class="p">.</span><span class="n">DTOs</span>
+<span class="n">@inject</span> <span class="n">HttpClient</span> <span class="n">Http</span>
 
-&lt;PageTitle&gt;Movie Details&lt;/PageTitle&gt;
+<span class="p">&lt;</span><span class="n">PageTitle</span><span class="p">&gt;</span><span class="n">Movie</span> <span class="n">Details</span><span class="p">&lt;/</span><span class="n">PageTitle</span><span class="p">&gt;</span>
 
-@if (movie == null)
-{
-    &lt;div class="container mt-4"&gt;
-        &lt;div class="alert alert-info"&gt;Loading details...&lt;/div&gt;
-    &lt;/div&gt;
-}
-else
-{
-    &lt;div class="container mt-4"&gt;
-        &lt;div class="card mb-4"&gt;
-            &lt;div class="card-body"&gt;
-                &lt;h2 class="card-title"&gt;@movie.Title&lt;/h2&gt;
-                &lt;p class="card-text text-muted"&gt;@movie.Description&lt;/p&gt;
-                &lt;a href="/" class="btn btn-outline-secondary"&gt;← Back to List&lt;/a&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
+<span class="nf">@if</span> <span class="p">(</span><span class="n">movie</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">container</span> <span class="n">mt</span><span class="p">-</span><span class="m">4</span><span class="s">"&gt;
+</span>        <span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">alert</span> <span class="n">alert</span><span class="p">-</span><span class="n">info</span><span class="s">"&gt;Loading details...&lt;/div&gt;
+</span>    <span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
+<span class="p">}</span>
+<span class="k">else</span>
+<span class="p">{</span>
+    <span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">container</span> <span class="n">mt</span><span class="p">-</span><span class="m">4</span><span class="s">"&gt;
+</span>        <span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">card</span> <span class="n">mb</span><span class="p">-</span><span class="m">4</span><span class="s">"&gt;
+</span>            <span class="p">&lt;</span><span class="n">div</span> <span class="k">class</span><span class="err">="</span><span class="nc">card</span><span class="p">-</span><span class="n">body</span><span class="s">"&gt;
+</span>                <span class="p">&lt;</span><span class="n">h2</span> <span class="k">class</span><span class="err">="</span><span class="nc">card</span><span class="p">-</span><span class="n">title</span><span class="s">"&gt;@movie.Title&lt;/h2&gt;
+</span>                <span class="p">&lt;</span><span class="n">p</span> <span class="k">class</span><span class="err">="</span><span class="nc">card</span><span class="p">-</span><span class="n">text</span> <span class="n">text</span><span class="p">-</span><span class="n">muted</span><span class="s">"&gt;@movie.Description&lt;/p&gt;
+</span>                <span class="p">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="p">=</span><span class="s">"/"</span> <span class="k">class</span><span class="err">="</span><span class="nc">btn</span> <span class="n">btn</span><span class="p">-</span><span class="n">outline</span><span class="p">-</span><span class="n">secondary</span><span class="s">"&gt;← Back to List&lt;/a&gt;
+</span>            <span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
 
-        &lt;h3&gt;Showtimes&lt;/h3&gt;
-        @if (movie.Showtimes == null || !movie.Showtimes.Any())
-        {
-            &lt;p&gt;No showtimes available.&lt;/p&gt;
-        }
-        else
-        {
-            &lt;table class="table table-striped table-hover"&gt;
-                &lt;thead class="table-dark"&gt;
-                    &lt;tr&gt;
-                        &lt;th&gt;Date&lt;/th&gt;
-                        &lt;th&gt;Time&lt;/th&gt;
-                        &lt;th&gt;Price&lt;/th&gt;
-                        &lt;th&gt;Action&lt;/th&gt;
-                    &lt;/tr&gt;
-                &lt;/thead&gt;
-                &lt;tbody&gt;
-                    @foreach (var show in movie.Showtimes)
-                    {
-                        &lt;tr&gt;
-                            &lt;td&gt;@show.StartTime.ToLocalTime().ToString("MMM dd, yyyy")&lt;/td&gt;
-                            &lt;td&gt;@show.StartTime.ToLocalTime().ToString("HH:mm")&lt;/td&gt;
+        <span class="p">&lt;</span><span class="n">h3</span><span class="p">&gt;</span><span class="n">Showtimes</span><span class="p">&lt;/</span><span class="n">h3</span><span class="p">&gt;</span>
+        <span class="nf">@if</span> <span class="p">(</span><span class="n">movie</span><span class="p">.</span><span class="n">Showtimes</span> <span class="p">==</span> <span class="k">null</span> <span class="p">||</span> <span class="p">!</span><span class="n">movie</span><span class="p">.</span><span class="n">Showtimes</span><span class="p">.</span><span class="nf">Any</span><span class="p">())</span>
+        <span class="p">{</span>
+            <span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="n">No</span> <span class="n">showtimes</span> <span class="n">available</span><span class="p">.&lt;/</span><span class="n">p</span><span class="p">&gt;</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="p">&lt;</span><span class="n">table</span> <span class="k">class</span><span class="err">="</span><span class="nc">table</span> <span class="n">table</span><span class="p">-</span><span class="n">striped</span> <span class="n">table</span><span class="p">-</span><span class="n">hover</span><span class="s">"&gt;
+</span>                <span class="p">&lt;</span><span class="n">thead</span> <span class="k">class</span><span class="err">="</span><span class="nc">table</span><span class="p">-</span><span class="n">dark</span><span class="s">"&gt;
+</span>                    <span class="p">&lt;</span><span class="n">tr</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="n">th</span><span class="p">&gt;</span><span class="n">Date</span><span class="p">&lt;/</span><span class="n">th</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="n">th</span><span class="p">&gt;</span><span class="n">Time</span><span class="p">&lt;/</span><span class="n">th</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="n">th</span><span class="p">&gt;</span><span class="n">Price</span><span class="p">&lt;/</span><span class="n">th</span><span class="p">&gt;</span>
+                        <span class="p">&lt;</span><span class="n">th</span><span class="p">&gt;</span><span class="n">Action</span><span class="p">&lt;/</span><span class="n">th</span><span class="p">&gt;</span>
+                    <span class="p">&lt;/</span><span class="n">tr</span><span class="p">&gt;</span>
+                <span class="p">&lt;/</span><span class="n">thead</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="n">tbody</span><span class="p">&gt;</span>
+                    <span class="nf">@foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">show</span> <span class="k">in</span> <span class="n">movie</span><span class="p">.</span><span class="n">Showtimes</span><span class="p">)</span>
+                    <span class="p">{</span>
+                        <span class="p">&lt;</span><span class="n">tr</span><span class="p">&gt;</span>
+                            <span class="p">&lt;</span><span class="n">td</span><span class="p">&gt;</span><span class="n">@show</span><span class="p">.</span><span class="n">StartTime</span><span class="p">.</span><span class="nf">ToLocalTime</span><span class="p">().</span><span class="nf">ToString</span><span class="p">(</span><span class="s">"MMM dd, yyyy"</span><span class="p">)&lt;/</span><span class="n">td</span><span class="p">&gt;</span>
+                            <span class="p">&lt;</span><span class="n">td</span><span class="p">&gt;</span><span class="n">@show</span><span class="p">.</span><span class="n">StartTime</span><span class="p">.</span><span class="nf">ToLocalTime</span><span class="p">().</span><span class="nf">ToString</span><span class="p">(</span><span class="s">"HH:mm"</span><span class="p">)&lt;/</span><span class="n">td</span><span class="p">&gt;</span>
 
-                            &lt;td&gt;$@show.TicketPrice.ToString("F2")&lt;/td&gt;
-                            &lt;td&gt;
-                                &lt;button class="btn btn-success btn-sm"&gt;Buy Ticket&lt;/button&gt;
-                            &lt;/td&gt;
-                        &lt;/tr&gt;
-                    }
-                &lt;/tbody&gt;
-            &lt;/table&gt;
-        }
-    &lt;/div&gt;
-}
+                            <span class="p">&lt;</span><span class="n">td</span><span class="p">&gt;</span><span class="err">$</span><span class="n">@show</span><span class="p">.</span><span class="n">TicketPrice</span><span class="p">.</span><span class="nf">ToString</span><span class="p">(</span><span class="s">"F2"</span><span class="p">)&lt;/</span><span class="n">td</span><span class="p">&gt;</span>
+                            <span class="p">&lt;</span><span class="n">td</span><span class="p">&gt;</span>
+                                <span class="p">&lt;</span><span class="n">button</span> <span class="k">class</span><span class="err">="</span><span class="nc">btn</span> <span class="n">btn</span><span class="p">-</span><span class="n">success</span> <span class="n">btn</span><span class="p">-</span><span class="n">sm</span><span class="s">"&gt;Buy Ticket&lt;/button&gt;
+</span>                            <span class="p">&lt;/</span><span class="n">td</span><span class="p">&gt;</span>
+                        <span class="p">&lt;/</span><span class="n">tr</span><span class="p">&gt;</span>
+                    <span class="p">}</span>
+                <span class="p">&lt;/</span><span class="n">tbody</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="n">table</span><span class="p">&gt;</span>
+        <span class="p">}</span>
+    <span class="p">&lt;/</span><span class="n">div</span><span class="p">&gt;</span>
+<span class="p">}</span>
 
-@code {
-    [Parameter]
-    public int Id { get; set; }
+<span class="n">@code</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">Parameter</span><span class="p">]</span>
+    <span class="k">public</span> <span class="kt">int</span> <span class="n">Id</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
 
-    private MovieDto? movie;
+    <span class="k">private</span> <span class="n">MovieDto</span><span class="p">?</span> <span class="n">movie</span><span class="p">;</span>
 
-    protected override async Task OnInitializedAsync()
-    {
-        // Fetch the specific movie (including showtimes) by ID
-        movie = await Http.GetFromJsonAsync&lt;MovieDto&gt;($"api/movies/{Id}");
-    }
-}</code></pre>
+    <span class="k">protected</span> <span class="k">override</span> <span class="k">async</span> <span class="n">Task</span> <span class="nf">OnInitializedAsync</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// Fetch the specific movie (including showtimes) by ID</span>
+        <span class="n">movie</span> <span class="p">=</span> <span class="k">await</span> <span class="n">Http</span><span class="p">.</span><span class="n">GetFromJsonAsync</span><span class="p">&lt;</span><span class="n">MovieDto</span><span class="p">&gt;(</span><span class="s">$"api/movies/</span><span class="p">{</span><span class="n">Id</span><span class="p">}</span><span class="s">"</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -837,7 +955,7 @@ else
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-12-02 19:07:47 +0100
+Last updated 2025-12-19 14:13:04 +0100
 </div>
 </div>
 </body>

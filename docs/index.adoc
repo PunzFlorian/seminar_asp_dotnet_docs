@@ -5,6 +5,8 @@
 :author:
 :revdate:
 
+:source-highlighter: rouge
+:rouge-style: github
 // Custom front matter/attributes are defined here
 :imagesdir: .
 

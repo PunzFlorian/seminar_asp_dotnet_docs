@@ -1,3 +1,6 @@
+:source-highlighter: rouge
+:rouge-style: github
+
 == 4 Client
 In this section we will build a Blazor webpage wich fetches data from the api and displays it.
 
